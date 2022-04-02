@@ -12,6 +12,6 @@
 #include <stdlib.h>
 
 int main(void) {
-	printf("Hola sol");
+	setbuf(stdout, NULL);
 	return EXIT_SUCCESS;
 }
