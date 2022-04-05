@@ -4,8 +4,9 @@
 
 int main(void){
 	setbuf(stdout, NULL);
-	int kmsDelViaje;
+	int kmsDelViaje = 0;
 	int opcion;
+	int valorPedirCosto;
 	int opcionMenuAerolineas;
 	int respuesta;
 	int respuestaMenuAerolineas;
@@ -14,7 +15,7 @@ int main(void){
 
 	do{
 		fflush(stdin);
-	respuesta = utn_getNumero(&opcion,"Seleccione una opcion\n1 Ingresar Kilómetros: ( km = 0)\n2 Ingresar precio de vuelos\n3 Calcular todos los costos\n4 Informar resultados\n5 Carga forzada de datos\n6 Salir\n","No es una opcion valida\n",1,6,1);
+	respuesta = utn_getNumero(&opcion,"Seleccione una opcion\n1 Ingresar Kilómetros: ( km = 0)\n2 Ingresar precio de vuelos\n3 Calcular todos los costos\n4 Informar resultados\n5 Carga forzada de datos\n6 Salir\n","No es una opcion valida.\n",1,6,1);
 	if(respuesta == 00){
 		switch(opcion){
 		case 1:
@@ -27,35 +28,43 @@ int main(void){
 			if(respuestaMenuAerolineas == 0){
 				switch(opcionMenuAerolineas){
 				case 1:
-					pedirCosto(&costoDelViajeAerolineas);
-					printf("%f",costoDelViajeAerolineas);
+					fflush(stdin);
+					valorPedirCosto = pedirCosto(&costoDelViajeAerolineas, "Debe ser un numero y mayor a 0.\n",1);
+
 					break;
 				case 2:
-					pedirCosto(&costoDelViajeLatam);
-					printf("%f",costoDelViajeLatam);
+
+					break;
+				case 3:
 					break;
 				}
 			}
 			else{
-				printf("Volviendo al menu principal.\n");
+				printf("Reintentos finalizados, volviendo al menu principal.\n");
 				break;
 				}
-			}while(opcionMenuAerolineas !=3 && respuestaMenuAerolineas != 0);
-
+			}while(respuestaMenuAerolineas == 0 && opcionMenuAerolineas != 3);
 			break;
 		case 3:
+			calcularPrecioConDebito(costoDelViajeAerolineas, &precioAerolineasDebito);
 			break;
 		case 4:
-			printf("Los kilometros ingresados son: %d\nPrecio aerolineas: %.2f\nPrecio latam: %.2f\n",kmsDelViaje,costoDelViajeAerolineas,costoDelViajeLatam);
+			mostrarResultados(kmsDelViaje, costoDelViajeAerolineas, precioAerolineasDebito,precioAerolineasCredito,precioAerolineasBtc);
+			break;
+		case 5:
+			break;
+		case 6:
+			printf("Programa finalizado correctamente.");
+			exit(-1);
 			break;
 		}
 	}
 	else{
-		printf("Opcion invalida. Debe ingresar un numero. \n");
+		printf("Debe ingresar un numero. \n");
 	}
-	}while(opcion != 6 && respuesta ==0);
+	}while(respuesta ==0);
 
-	printf("Programa finalizado correctamente.");
+
 	return 0;
 }
 

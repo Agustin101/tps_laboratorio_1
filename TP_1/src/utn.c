@@ -31,11 +31,37 @@ int utn_getNumero(int * pResultado, char*mensaje, char*mensajeError, int minimo,
 	return retorno;
 }
 
+int pedirCosto(float * pCosto, char*mensajeDeError, int reintentos){
+	int retorno = -1;
+	float costo = 0;
+
+	if(pCosto != NULL && mensajeDeError != NULL && reintentos >=0)
+	{
+	do
+	{
+	printf("Introduzca el costo: \n");
+	fflush(stdin);
+	scanf("%f", &costo);
+	if(costo > 0){
+		retorno = 0;
+		*pCosto = costo;
+		break;
+	}
+	else{
+		reintentos--;
+		printf("%s",mensajeDeError);
+	}
+	}while(reintentos >= 0);
+	}
+	return retorno;
+}
+
 int calcularPrecioConDebito(float precioDelViaje, float * precioFinalDebito){
+	int retorno = -1;
 	float precioAux;
 	precioAux = precioDelViaje - (precioDelViaje * 10) / 100;
 	*precioFinalDebito = precioAux;
-	return 0;
+	return retorno;
 }
 
 int calcularPrecioConCredito(float precioDelViaje, float * precioFinalCredito){
@@ -66,17 +92,14 @@ int pedirKilometros(int * kilometrosIngresados){
 	return retorno;
 }
 
-int pedirCosto(float * pCosto){
-	int retorno = -1;
-	float costo;
-	printf("Introduzca el costo");
-	scanf("%f", &costo);
-	if(costo > 0){
-		retorno = 0;
-		*pCosto = costo;
-	}
+int mostrarResultados(int kmsIngresados, float precioAerolineas, float precioAerolineasDebito, float precioAAerolineasCredito, float precioBitcoin){
+
+	printf("kms Ingresados: %i km\n\n",kmsIngresados);
+	printf("Precio Aerolineas: $%.2f \n",precioAerolineas);
+	printf("a)Precio con tarjeta de débito: %.2f\n",precioAerolineasDebito);
 
 
-	return retorno;
+
+
+return 0;
 }
-
