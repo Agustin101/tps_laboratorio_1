@@ -14,6 +14,6 @@ int calcularPrecioConCredito(float precioDelViaje, float * precioFinalCredito);
 int calcularPrecioConBitcoin(float precioDelViaje, float * precioFinalBtc);
 int pedirKilometros(int * kilometrosIngresados);
 int pedirCosto(float * pCosto, char*mensajeDeError, int reintentos);
-int mostrarResultados(int kmsIngresados, float precioAerolineas, float precioAerolineasDebito, float precioAAerolineasCredito, float precioBitcoin);
-
+int mostrarResultados(int kmsIngresados, float precioAerolineas, float precioAerolineasDebito, float precioAerolineasCredito, float precioBitcoin, float precioUnitarioAerolineas);
+int calcularPrecioUnitario(float precioDelViaje, int kmsIngresados, float *precioUnitario);
 #endif /* UTN_H_ */

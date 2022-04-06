@@ -92,14 +92,34 @@ int pedirKilometros(int * kilometrosIngresados){
 	return retorno;
 }
 
-int mostrarResultados(int kmsIngresados, float precioAerolineas, float precioAerolineasDebito, float precioAAerolineasCredito, float precioBitcoin){
+int mostrarResultados(int kmsIngresados, float precioAerolineas, float precioAerolineasDebito, float precioAerolineasCredito, float precioBitcoin, float precioUnitarioAerolineas){
 
 	printf("kms Ingresados: %i km\n\n",kmsIngresados);
 	printf("Precio Aerolineas: $%.2f \n",precioAerolineas);
-	printf("a)Precio con tarjeta de débito: %.2f\n",precioAerolineasDebito);
-
+	printf("a)Precio con tarjeta de débito: $ %.2f\n",precioAerolineasDebito);
+	printf("b)Precio con tarjeta de credito: $ %.2f \n",precioAerolineasCredito);
+	printf("c)Precio pagando con bitcoin: %.4f BTC\n",precioBitcoin);
+	printf("d) Mostrar precio unitario: $ %.2f\n",precioUnitarioAerolineas);
 
 
 
 return 0;
 }
+
+int calcularPrecioUnitario(float precioDelViaje, int kmsIngresados, float *precioUnitario){
+	float precioUnitarioAux;
+	precioUnitarioAux = precioDelViaje / kmsIngresados;
+	*precioUnitario = precioUnitarioAux;
+
+
+	return 0;
+}
+
+
+
+
+
+
+
+
+

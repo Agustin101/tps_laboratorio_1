@@ -6,12 +6,14 @@ int main(void){
 	setbuf(stdout, NULL);
 	int kmsDelViaje = 0;
 	int opcion;
-	int valorPedirCosto;
 	int opcionMenuAerolineas;
 	int respuesta;
 	int respuestaMenuAerolineas;
-	float costoDelViajeAerolineas, costoDelViajeLatam, precioAerolineasDebito, precioLatamDebito,
-	precioLatamCredito, precioAerolineasCredito, precioAerolineasBtc, precioLatamBtc;
+	float costoDelViajeAerolineas, costoDelViajeLatam,precioLatamDebito,
+	precioLatamCredito, precioAerolineasBtc, precioLatamBtc;
+	float precioAerolineasCredito = 0;
+	float precioAerolineasDebito = 0;
+	float precioUnitarioAerolineas;
 
 	do{
 		fflush(stdin);
@@ -29,11 +31,11 @@ int main(void){
 				switch(opcionMenuAerolineas){
 				case 1:
 					fflush(stdin);
-					valorPedirCosto = pedirCosto(&costoDelViajeAerolineas, "Debe ser un numero y mayor a 0.\n",1);
-
+					pedirCosto(&costoDelViajeAerolineas, "Debe ser un numero y mayor a 0.\n",1);
 					break;
 				case 2:
-
+					fflush(stdin);
+					 pedirCosto(&costoDelViajeLatam, "Debe ser un numero y mayor a 0.\n",1);
 					break;
 				case 3:
 					break;
@@ -47,9 +49,12 @@ int main(void){
 			break;
 		case 3:
 			calcularPrecioConDebito(costoDelViajeAerolineas, &precioAerolineasDebito);
+			calcularPrecioConCredito(costoDelViajeAerolineas, &precioAerolineasCredito);
+			calcularPrecioConBitcoin(costoDelViajeAerolineas,&precioAerolineasBtc);
+			calcularPrecioUnitario(costoDelViajeAerolineas, kmsDelViaje, &precioUnitarioAerolineas);
 			break;
 		case 4:
-			mostrarResultados(kmsDelViaje, costoDelViajeAerolineas, precioAerolineasDebito,precioAerolineasCredito,precioAerolineasBtc);
+			mostrarResultados(kmsDelViaje, costoDelViajeAerolineas, precioAerolineasDebito,precioAerolineasCredito,precioAerolineasBtc,precioUnitarioAerolineas);
 			break;
 		case 5:
 			break;
