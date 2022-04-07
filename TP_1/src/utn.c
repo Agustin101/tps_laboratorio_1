@@ -8,8 +8,10 @@
 #include <stdlib.h>
 
 int utn_getNumero(int * pResultado, char*mensaje, char*mensajeError, int minimo, int maximo, int reintentos){
-	int retorno = -1;
+	int retorno;
 	int buffer;
+
+	retorno = -1;
 
 	if (pResultado != NULL && mensaje != NULL && mensajeError != NULL && minimo <= maximo && reintentos >= 0)
 	{
@@ -32,8 +34,11 @@ int utn_getNumero(int * pResultado, char*mensaje, char*mensajeError, int minimo,
 }
 
 int pedirCosto(float * pCosto, char*mensajeDeError, int reintentos){
-	int retorno = -1;
-	float costo = 0;
+	int retorno;
+	float costo;
+
+	retorno = -1;
+	costo = 0;
 
 	if(pCosto != NULL && mensajeDeError != NULL && reintentos >=0)
 	{
@@ -57,64 +62,102 @@ int pedirCosto(float * pCosto, char*mensajeDeError, int reintentos){
 }
 
 int calcularPrecioConDebito(float precioDelViaje, float * precioFinalDebito){
-	int retorno = -1;
+	int retorno;
 	float precioAux;
-	precioAux = precioDelViaje - (precioDelViaje * 10) / 100;
-	*precioFinalDebito = precioAux;
+
+	retorno = -1;
+
+	if(precioDelViaje > 0 && precioFinalDebito != NULL){
+		precioAux = precioDelViaje - (precioDelViaje * 10) / 100;
+		*precioFinalDebito = precioAux;
+		retorno = 0;
+	}
 	return retorno;
 }
 
 int calcularPrecioConCredito(float precioDelViaje, float * precioFinalCredito){
 	float precioAux;
-	precioAux = precioDelViaje + (precioDelViaje / 100) * 25;
-	*precioFinalCredito = precioAux;
-	return 0;
+	int retorno;
+
+	retorno = -1;
+
+	if(precioDelViaje > 0 && precioFinalCredito != NULL){
+		precioAux = precioDelViaje + (precioDelViaje / 100) * 25;
+		*precioFinalCredito = precioAux;
+		retorno = 0;
+	}
+	return retorno;
 }
 
 int calcularPrecioConBitcoin(float precioDelViaje, float * precioFinalBtc){
 	float precioAux;
 	float precioBtc;
-	precioBtc = 4606954.55;
-	precioAux = precioDelViaje / precioBtc;
-	*precioFinalBtc = precioAux;
-	return 0;
-}
+	int retorno;
 
-int pedirKilometros(int * kilometrosIngresados){
-	int retorno = -1;
-	int kmsDelViajeAux;
-	printf("Ingrese los km del viaje: \n");
-	scanf("%d", &kmsDelViajeAux);
-	if(kmsDelViajeAux > 0){
+	precioBtc = 4606954.55;
+	retorno = -1;
+
+	if(precioDelViaje > 0 && precioFinalBtc != NULL){
+		precioAux = precioDelViaje / precioBtc;
+		*precioFinalBtc = precioAux;
 		retorno = 0;
-		*kilometrosIngresados = kmsDelViajeAux;
 	}
 	return retorno;
 }
 
-int mostrarResultados(int kmsIngresados, float precioAerolineas, float precioAerolineasDebito, float precioAerolineasCredito, float precioBitcoin, float precioUnitarioAerolineas){
+int pedirKilometros(int * kilometrosIngresados){
+	int retorno;
+	int kmsDelViajeAux;
 
+	retorno = -1;
+
+	if(kilometrosIngresados != NULL){
+	printf("Ingrese los km del viaje: \n");
+	fflush(stdin);
+	scanf("%d", &kmsDelViajeAux);
+		if(kmsDelViajeAux > 0 ){
+			*kilometrosIngresados = kmsDelViajeAux;
+			retorno = 0;
+		}
+	}
+	return retorno;
+}
+
+int calcularPrecioUnitario(float precioDelViaje, int kmsIngresados, float *precioUnitario){
+	float precioUnitarioAux;
+	int retorno;
+
+	retorno = -1;
+
+	if(precioDelViaje > 0 && kmsIngresados > 0 && precioUnitario != NULL){
+		precioUnitarioAux = precioDelViaje / kmsIngresados;
+		*precioUnitario = precioUnitarioAux;
+		retorno = 0;
+	}
+
+	return retorno;
+}
+
+int mostrarResultados(int kmsIngresados, float precioAerolineas, float precioAerolineasDebito, float precioAerolineasCredito, float precioBitcoin, float precioUnitarioAerolineas){
+	int retorno = -1;
+
+
+
+	if(kmsIngresados > 0 && precioAerolineas > 0){
 	printf("kms Ingresados: %i km\n\n",kmsIngresados);
 	printf("Precio Aerolineas: $%.2f \n",precioAerolineas);
 	printf("a)Precio con tarjeta de débito: $ %.2f\n",precioAerolineasDebito);
 	printf("b)Precio con tarjeta de credito: $ %.2f \n",precioAerolineasCredito);
 	printf("c)Precio pagando con bitcoin: %.4f BTC\n",precioBitcoin);
 	printf("d) Mostrar precio unitario: $ %.2f\n",precioUnitarioAerolineas);
+	}
+	else{
+		printf("No se ingresaron valores, no se pueden mostrar resultados.\n");
+	}
 
 
-
-return 0;
+return retorno;
 }
-
-int calcularPrecioUnitario(float precioDelViaje, int kmsIngresados, float *precioUnitario){
-	float precioUnitarioAux;
-	precioUnitarioAux = precioDelViaje / kmsIngresados;
-	*precioUnitario = precioUnitarioAux;
-
-
-	return 0;
-}
-
 
 
 

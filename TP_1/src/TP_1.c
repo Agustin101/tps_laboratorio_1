@@ -4,24 +4,44 @@
 
 int main(void){
 	setbuf(stdout, NULL);
-	int kmsDelViaje = 0;
+	int kmsDelViaje;
 	int opcion;
 	int opcionMenuAerolineas;
 	int respuesta;
 	int respuestaMenuAerolineas;
 	float costoDelViajeAerolineas, costoDelViajeLatam,precioLatamDebito,
 	precioLatamCredito, precioAerolineasBtc, precioLatamBtc;
-	float precioAerolineasCredito = 0;
-	float precioAerolineasDebito = 0;
+	float precioAerolineasCredito;
+	float precioAerolineasDebito;
 	float precioUnitarioAerolineas;
 
+
+	precioAerolineasCredito = 0;
+	precioAerolineasDebito = 0;
+	kmsDelViaje = 0;
+
 	do{
+		printf("Seleccione una opcion\n");
+		printf("1 Ingresar Kilómetros: ( km = %i)\n",kmsDelViaje);
+		printf("2 Ingresar Precio de Vuelos: (Aerolíneas=%.2f, Latam=%.2f)\n- Precio vuelo Aerolíneas:\n- Precio vuelo Latam:\n",costoDelViajeAerolineas,costoDelViajeLatam);
+		printf("3 Calcular todos los costos\na) Tarjeta de débito (descuento 10)\nb) Tarjeta de crédito (interés 25%)\nc) Bitcoin (1BTC -> 4606954.55 Pesos Argentinos)\nd) Mostrar precio por km (precio unitario)\ne) Mostrar diferencia de precio ingresada (Latam - Aerolíneas)\n");
+		printf("4 Informar Resultados\n“Latam:\na) Precio con tarjeta de débito: r\nb) Precio con tarjeta de crédito: r\nc) Precio pagando con bitcoin : r\nd) Precio unitario: r\nAerolíneas:\na) Precio con tarjeta de débito: r\nb) Precio con tarjeta de crédito: r\nc) Precio pagando con bitcoin :\n"
+				"d) Precio unitario: r \nLa diferencia de precio es : r “\n");
+		printf("5 Carga forzada de datos\n");
+		printf("6 Salir\n");
 		fflush(stdin);
-	respuesta = utn_getNumero(&opcion,"Seleccione una opcion\n1 Ingresar Kilómetros: ( km = 0)\n2 Ingresar precio de vuelos\n3 Calcular todos los costos\n4 Informar resultados\n5 Carga forzada de datos\n6 Salir\n","No es una opcion valida.\n",1,6,1);
-	if(respuesta == 00){
+		scanf("%i",&opcion);
 		switch(opcion){
 		case 1:
-			pedirKilometros(&kmsDelViaje);
+			do{
+				respuesta = pedirKilometros(&kmsDelViaje);
+				if(respuesta == 0){
+					break;
+				}
+				else{
+					printf("El valor ingresado no es valido.(Debe ser un numero y mayor a 0)\n");
+				}
+			}while(respuesta !=0);
 				break;
 		case 2:
 			do{
@@ -57,18 +77,21 @@ int main(void){
 			mostrarResultados(kmsDelViaje, costoDelViajeAerolineas, precioAerolineasDebito,precioAerolineasCredito,precioAerolineasBtc,precioUnitarioAerolineas);
 			break;
 		case 5:
+			kmsDelViaje = 7090;
+			costoDelViajeAerolineas = 162965;
+			costoDelViajeLatam = 159339;
+			calcularPrecioConDebito(costoDelViajeAerolineas, &precioAerolineasDebito);
+			calcularPrecioConCredito(costoDelViajeAerolineas, &precioAerolineasCredito);
+			calcularPrecioConBitcoin(costoDelViajeAerolineas,&precioAerolineasBtc);
+			calcularPrecioUnitario(costoDelViajeAerolineas, kmsDelViaje, &precioUnitarioAerolineas);
+
 			break;
 		case 6:
 			printf("Programa finalizado correctamente.");
-			exit(-1);
+			exit(0);
 			break;
 		}
-	}
-	else{
-		printf("Debe ingresar un numero. \n");
-	}
-	}while(respuesta ==0);
-
+	}while(opcion !=6);
 
 	return 0;
 }
