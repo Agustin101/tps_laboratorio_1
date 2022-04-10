@@ -3,8 +3,8 @@
 /// @brief Calcula el precio unitario por km del viaje
 /// @param precioDelViaje Parametro que recibe el precio del viaje ingresado.
 /// @param kmsIngresados Parametro que recibe la cantidad de kilometros.
-/// @param precioUnitario Recibe como parametro un puntero tipo flotante.
-/// al precio unitario y retorna un puntero a precio unitario.
+/// @param precioUnitario Recibe como parametro un puntero tipo flotante
+/// en el cual retorna un puntero con el valor calculado.
 /// @return Retorna 0 en caso de que pueda realizar las validaciones, si una de esta falla
 /// el retorno es -1.
 int calcularPrecioUnitario(float precioDelViaje, int kmsIngresados, float *pPrecioUnitario){
@@ -22,12 +22,19 @@ int calcularPrecioUnitario(float precioDelViaje, int kmsIngresados, float *pPrec
 	return retorno;
 }
 
+/// @brief Calcula el precio del viaje en bitcoin.
+///
+/// @param precioDelViaje Parametro que recibe el precio del viaje ingresado.
+/// @param pPrecioFinalBtc Recibe como parametro un puntero tipo flotante
+/// y retorna un puntero con el valor calculado.
+/// @return Retorna 0 en caso de que pueda realizar las validaciones, si una de esta falla
+/// el retorno es -1.
 int calcularPrecioConBitcoin(float precioDelViaje, float * pPrecioFinalBtc){
 	float precioAux;
 	float precioBtc;
 	int retorno;
 
-	precioBtc = 4606954.55;
+	precioBtc = 4809089.26;
 	retorno = -1;
 
 	if(precioDelViaje > 0 && pPrecioFinalBtc != NULL){
@@ -37,7 +44,13 @@ int calcularPrecioConBitcoin(float precioDelViaje, float * pPrecioFinalBtc){
 	}
 	return retorno;
 }
-
+/// @brief Calcula el precio del viaje con recargo.
+///
+/// @param precioDelViaje Parametro que recibe el precio del viaje ingresado.
+/// @param pPrecioFinalCredito Recibe como parametro un puntero tipo flotante
+/// y retorna un puntero con el valor calculado.
+/// @return Retorna 0 en caso de que pueda realizar las validaciones, si una de esta falla
+/// el retorno es -1.
 int calcularPrecioConCredito(float precioDelViaje, float * pPrecioFinalCredito){
 	float precioAux;
 	int retorno;
@@ -51,7 +64,13 @@ int calcularPrecioConCredito(float precioDelViaje, float * pPrecioFinalCredito){
 	}
 	return retorno;
 }
-
+/// @brief Calcula el precio del viaje con descuento.
+///
+/// @param precioDelViaje Parametro que recibe el precio del viaje ingresado.
+/// @param pPrecioFinalDebito Recibe como parametro un puntero tipo flotante
+/// y retorna un puntero con el valor calculado.
+/// @return Retorna 0 en caso de que pueda realizar las validaciones, si una de esta falla
+/// el retorno es -1.
 int calcularPrecioConDebito(float precioDelViaje, float * pPrecioFinalDebito){
 	int retorno;
 	float precioAux;
@@ -66,6 +85,14 @@ int calcularPrecioConDebito(float precioDelViaje, float * pPrecioFinalDebito){
 	return retorno;
 }
 
+/// @brief Calcula la diferencia entre dos numeros tipo float.
+///
+/// @param primerNumero Parametro que recibe el primer numero.
+/// @param segundoNumero Parametro que recibe el segundo numero.
+/// @param pDiferencia Recibe como parametro un puntero tipo flotante
+/// y retorna un puntero con la diferencia entre ambos numeros.
+/// @return Retorna 0 en caso de que pueda realizar las validaciones, si una de esta falla
+/// el retorno es -1.
 int calcularDiferenciaEntreDosFlotantes(float primerNumero, float segundoNumero, float * pDiferencia){
 	int retorno;
 	float diferenciaAux;
