@@ -21,11 +21,17 @@ int main(void){
 	float precioAerolineasBtc;
 	float precioLatamBtc;
 	float costoDelViajeLatam;
+	int validacionRetorno;
+
+	kmsDelViaje = 0;
+	costoDelViajeAerolineas = 0;
+	costoDelViajeLatam = 0;
 
 	do{
-		printf("Seleccione una opcion\n1 Ingresar Kilómetros: ( km = %i)\n2 Ingresar Precio de Vuelos: (Aerolíneas=%.2f, Latam=%.2f)\n- Precio vuelo Aerolíneas:\n- Precio vuelo Latam:\n3 Calcular todos los costos\na) Tarjeta de débito (descuento 10%%)\nb) Tarjeta de crédito (interés 25%%)\nc) Bitcoin (1BTC -> 4606954.55 Pesos Argentinos)\nd) Mostrar precio por km (precio unitario)\ne) Mostrar diferencia de precio ingresada (Latam - Aerolíneas)\n4 Informar Resultados\n5 Carga forzada de datos\n6 Salir\n",kmsDelViaje,costoDelViajeAerolineas,costoDelViajeLatam);
+		printf("1 Ingresar Kilómetros: ( km = %i)\n2 Ingresar Precio de Vuelos: (Aerolíneas=%.2f, Latam=%.2f)\n- Precio vuelo Aerolíneas:\n- Precio vuelo Latam:\n3 Calcular todos los costos\na) Tarjeta de débito (descuento 10%%)\nb) Tarjeta de crédito (interés 25%%)\nc) Bitcoin (1BTC -> 4606954.55 Pesos Argentinos)\nd) Mostrar precio por km (precio unitario)\ne) Mostrar diferencia de precio ingresada (Latam - Aerolíneas)\n4 Informar Resultados\n5 Carga forzada de datos\n6 Salir\n",kmsDelViaje,costoDelViajeAerolineas,costoDelViajeLatam);
 		fflush(stdin);
-		scanf("%i",&opcion);
+		validacionRetorno = utn_getNumero(&opcion,"Seleccione una opcion", "Ingrese una opcion valida\n",1,6,1);
+		if(validacionRetorno == 0){
 		switch(opcion){
 		case 1:
 			do{
@@ -110,6 +116,7 @@ int main(void){
 			printf("Programa finalizado correctamente.");
 			break;
 		}
+	}
 	}while(opcion !=6);
 	return 0;
 }
