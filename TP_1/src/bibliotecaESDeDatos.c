@@ -4,7 +4,7 @@
  *  Created on: 3 abr. 2022
  *      Author: Agustin
  */
-#include "BibliotecaE_SDeDatos.h"
+#include "bibliotecaESDeDatos.h"
 
 /// @brief Funcion que se utiliza para obtener un numero en un rango determinado por la misma.
 ///

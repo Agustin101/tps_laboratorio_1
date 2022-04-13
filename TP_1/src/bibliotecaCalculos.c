@@ -1,4 +1,4 @@
-#include "BibliotecaCalculos.h"
+#include "bibliotecaCalculos.h"
 
 /// @brief Calcula el precio unitario por km del viaje
 /// @param precioDelViaje Parametro que recibe el precio del viaje ingresado.

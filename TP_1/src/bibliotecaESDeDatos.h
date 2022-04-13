@@ -6,8 +6,8 @@
  */
 
 
-#ifndef BIBLIOTECAE_SDEDATOS_H_
-#define BIBLIOTECAE_SDEDATOS_H_
+#ifndef BIBLIOTECAESDEDATOS_H_
+#define BIBLIOTECAESDEDATOS_H_
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -17,4 +17,4 @@ int pedirKilometros(int * pKilometrosIngresados);
 int pedirCosto(float * pCosto, char*pMensajeDeError, int reintentos);
 int mostrarResultados(int kmsIngresados, float precioAerolineas, float precioAerolineasDebito, float precioAerolineasCredito, float precioAerolineasBitcoin, float precioUnitarioAerolineas,
 		float precioLatam, float precioLatamDebito, float precioLatamCredito, float precioLatamBitcoin, float precioUnitarioLatam, float diferenciaDePrecio);
-#endif /* BIBLIOTECAE_SDEDATOS_H_ */
+#endif /* BIBLIOTECAESDEDATOS_H_ */
