@@ -47,7 +47,7 @@ int main(void) {
 			break;
 		case 2: //MODIFICACIONES DE PASAJEROS
 			if(flagCargoPasajero == 1){
-				if(utn_getInt(&idAux, "Ingrese el id del pasajero a modificar", "Por favor, ingrese una opcion valida.",0,2000,2) == 0){
+				if(utn_getInt(&idAux, "Ingrese el id del pasajero a modificar", "Por favor, ingrese una id valida.",0,16000,2) == 0){
 					if((r =(findPassengerById(pasajero, 2, idAux)))== idAux){
 						do{
 							r = utn_getInt(&opcionMenuPrincipal, "¿Que desea modificar?:\n1)Nombre\n2)Apellido\n3)Precio\n4)Tipo de pasajero\n5)Codigo de vuelo.\n6)Volver al menu principal", "Por favor, ingrese una opcion valida.",1,6,2);
@@ -79,7 +79,7 @@ int main(void) {
 									break;
 								case 3:
 									do{
-										r =utn_getFloat(precioAux, "Ingrese el nuevo precio del viaje:\n", "Ingrese un precio valido.",30000,10000,2);
+										r =utn_getFloat(&precioAux, "Ingrese el nuevo precio del viaje:\n", "Ingrese un precio valido.",30000,1000000,2);
 										if (r== 0){
 											for(int i =0; i<CANT_PASAJEROS; i++){
 												if(pasajero[i].id == idAux){
@@ -89,6 +89,32 @@ int main(void) {
 										}
 									}while(r == -1);
 									break;
+								case 4:
+									do{
+										utn_getInt(&typePassengerAux, "Ingrese el tipo de pasajero actual:\n1-Primera clase.\n2-Clase ejecutiva.\n3-Clase premium economica.\n4-Clase turista", "Por favor, ingrese una opcion valida.",1,4,2);
+											if (r== 0){
+												for(int i =0; i<CANT_PASAJEROS; i++){
+													if(pasajero[i].id == idAux){
+														pasajero[i].typePassenger = typePassengerAux;
+													}
+												}
+											}
+									}while(r == -1);
+									break;
+								case 5:
+									do{
+										utn_getFlyCode(flyCodeAux, "Ingrese el nuevo codigo de vuelo:\n", "El codigo de vuelo debe constar de 10 caracteres alfanumericos. Ingreselo nuevamente: \n", 10, 2);
+											if (r== 0){
+												for(int i =0; i<CANT_PASAJEROS; i++){
+													if(pasajero[i].id == idAux){
+														strcpy(pasajero[i].flycode, flyCodeAux);
+													}
+												}
+											}
+									}while(r == -1);
+									break;
+								case 6:
+									printf("Volviendo al menu principal\n.");
 								}
 							}
 						}while(opcionMenuPrincipal !=6);
@@ -103,13 +129,35 @@ int main(void) {
 			}
 			break;
 		case 3: //BAJA DE CLIENTES
-			/*do{
+			if(flagCargoPasajero == 1){
+					r = utn_getInt(&idAux,"Ingrese el id del pasajero que desea eliminar", "Indique un numero valido",0,16000,2);
+					if(r == 0){
+						for(int i =0; i<CANT_PASAJEROS; i++){
+							if(pasajero[i].id == idAux){
+								pasajero[i].isEmpty=1;
+								printf("El pasajero fue eliminado con exito!\n\n");
+								break;
+							}
+							else{
+								printf("El id ingresa no coincide con ningun pasajero activo.");
+							}
+						}
+					}
 
-			}while();*/
+			}
+			else{
+				printf("Aun no cargo ningun pasajero.");
+			}
+
 			break;
 		case 4://INFORMES DE CLIENTES
+			if(flagCargoPasajero == 1){
 			printf("\n\n  Nombre completo:%s %s Precio vuelo: %.2f Codigo de vuelo: %s tipo de pasajero: %i estado de vuelo:  id del pasajero: %i\n\n",pasajero[0].lastName, pasajero[0].name, pasajero[0].price, pasajero[0].flycode, pasajero[0].typePassenger,pasajero[0].id);
 			printf("\n\n  Nombre completo:%s %s Precio vuelo: %.2f Codigo de vuelo: %s tipo de pasajero: %i estado de vuelo:  Id del pasajero: %i\n\n",pasajero[1].lastName, pasajero[1].name, pasajero[1].price, pasajero[1].flycode, pasajero[1].typePassenger,pasajero[1].id);
+			}
+			else{
+				printf("Aun no cargo ningun pasajero.\n");
+			}
 			break;
 		case 5: //SALIR DEL PROGRAMA
 			printf("Programa finalizado correctamente.");

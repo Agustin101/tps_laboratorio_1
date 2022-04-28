@@ -63,11 +63,11 @@ pudoAsignar =0;
 	}
 
 	if(pudoAsignar == 1){
-		printf("Pasajero cargado correctamente.");
+		printf("Pasajero cargado correctamente.\n");
 		retorno =0;
 	}
 	else{
-		printf("No se pudo cargar el pasajero ya que no hay posiciones disponibles.");
+		printf("No se pudo cargar el pasajero ya que no hay posiciones disponibles.\n");
 		retorno = -1;
 		}
 	return retorno;
