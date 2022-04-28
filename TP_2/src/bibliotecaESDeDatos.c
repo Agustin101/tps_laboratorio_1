@@ -80,6 +80,10 @@ int utn_getString(char retString[], char * pMensaje, char *pMensajeError, int le
 		while(i < strlen(buffer) && flag == 0){
 			esNumero=isalpha(buffer[i]);
 				if((esNumero != 0 &&strlen(buffer) < len) || buffer[i] == ' ' ){
+					//while(i<len){
+						//buffer[i] =  toupper((unsigned char) buffer[i]);
+						//i++;
+					//} Puedo usar para convertir en uppercase todos los caracteres a la hora del sort
 					i++;
 					retorno =0;
 				}

@@ -138,7 +138,7 @@ int main(void) {
 								printf("El pasajero fue eliminado con exito!\n\n");
 								break;
 							}
-							else{
+							else{// arreglar en algun momento xD
 								printf("El id ingresa no coincide con ningun pasajero activo.");
 							}
 						}
@@ -152,12 +152,27 @@ int main(void) {
 			break;
 		case 4://INFORMES DE CLIENTES
 			if(flagCargoPasajero == 1){
-			printf("\n\n  Nombre completo:%s %s Precio vuelo: %.2f Codigo de vuelo: %s tipo de pasajero: %i estado de vuelo:  id del pasajero: %i\n\n",pasajero[0].lastName, pasajero[0].name, pasajero[0].price, pasajero[0].flycode, pasajero[0].typePassenger,pasajero[0].id);
-			printf("\n\n  Nombre completo:%s %s Precio vuelo: %.2f Codigo de vuelo: %s tipo de pasajero: %i estado de vuelo:  Id del pasajero: %i\n\n",pasajero[1].lastName, pasajero[1].name, pasajero[1].price, pasajero[1].flycode, pasajero[1].typePassenger,pasajero[1].id);
+			r = utn_getInt(&opcionMenuPrincipal, "¿De que manera desea ver el listado?\n", "Indique una opcion valida:\n",1,4,2);
+				if(r == 0){
+					switch(opcionMenuPrincipal){
+					case 1:
+						for(int i = 0; i<CANT_PASAJEROS; i++){
+						printf("\n\n  Nombre completo:%s %s Precio vuelo: %.2f Codigo de vuelo: %s tipo de pasajero: %i estado de vuelo:  id del pasajero: %i\n\n",pasajero[i].lastName, pasajero[i].name, pasajero[i].price, pasajero[i].flycode, pasajero[i].typePassenger,pasajero[i].id);
+						}
+						sortPassengersByName(pasajero, CANT_PASAJEROS, 0);
+						for(int i = 0; i<CANT_PASAJEROS; i++){
+						printf("\n\n  Nombre completo:%s %s Precio vuelo: %.2f Codigo de vuelo: %s tipo de pasajero: %i estado de vuelo:  Id del pasajero: %i\n\n",pasajero[i].lastName, pasajero[i].name, pasajero[i].price, pasajero[i].flycode, pasajero[i].typePassenger,pasajero[i].id);
+						}
+					}
+
+				}
 			}
 			else{
 				printf("Aun no cargo ningun pasajero.\n");
 			}
+
+
+
 			break;
 		case 5: //SALIR DEL PROGRAMA
 			printf("Programa finalizado correctamente.");

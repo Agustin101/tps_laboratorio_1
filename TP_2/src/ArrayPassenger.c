@@ -125,9 +125,32 @@ return retorno;
 * \param order int [1] indicate UP - [0] indicate DOWN
 * \return int Return (-1) if Error [Invalid length or NULL pointer] - (0) if Ok*
 */
-int sortPassengersByName(Passenger* list, int len, int order)
-{
-return 0;
+int sortPassengersByName(Passenger* list, int len, int order){
+	int retorno;
+	int i;
+	int estaOrdenado;
+	retorno = -1;
+
+	Passenger aux;
+
+	if(list != NULL && len > 0 ){
+		do{
+			estaOrdenado =1;
+			len--;
+			for(i=0; i<len;i++){
+				if(stricmp(list[i].lastName, list[i+1].lastName) > order){
+					aux = list[i];
+					list[i] = list[i+1];
+					list[i+1] = aux;
+					estaOrdenado=0;
+				}
+			}
+
+			}while(estaOrdenado ==0);
+			retorno = 0;
+		}
+
+	return retorno;
 }
 
 /** \brief print the content of passengers array
