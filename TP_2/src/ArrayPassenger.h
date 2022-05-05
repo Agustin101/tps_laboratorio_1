@@ -42,6 +42,8 @@ int initPassengers(Passenger* list, int len);
 int findFreeIndex(Passenger* list,int len);
 int thereIsPassenger(Passenger * list, int len);
 int searchIndexForId(Passenger * list , int len, int id);
+int findOccupedIndex(Passenger* list,int len);
+int printPassengers(Passenger* list, int len);
 
 
 

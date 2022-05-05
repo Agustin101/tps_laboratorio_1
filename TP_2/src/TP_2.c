@@ -138,22 +138,14 @@ int main(void) {
 				printf("Aun no cargo ningun pasajero.\n"); //intentar mostrar mensaje sin print
 			}
 			break;
-		case 4://INFORMES DE CLIENTES
+		case 4://INFORMES DE CLIENTES  arreglado 5/5/2022
 			if(thereIsPassenger(pasajero, CANT_PASAJEROS)==1){
 					if(utn_getInt(&opcionMenuPrincipal, "¿De que manera desea ver el listado?\n1)Listado de los pasajeros ordenados alfabéticamente por Apellido y Tipo de pasajero,\n2)Total y promedio de los precios de los pasajes, y cuántos pasajeros superan el precio promedio.\n3)Listado de los pasajeros por Código de vuelo y estados de vuelos ‘ACTIVO’ ", "Indique una opcion valida:\n",1,4,2)==0){
 						switch(opcionMenuPrincipal){
 						case 1:
-							for(int i = 0; i<CANT_PASAJEROS; i++){
-								if(pasajero[i].isEmpty==0){
-									printf("\n\n  Nombre completo:%s %s Precio vuelo: %.2f Codigo de vuelo: %s tipo de pasajero: %i estado de vuelo:  id del pasajero: %i\n\n",pasajero[i].lastName, pasajero[i].name, pasajero[i].price, pasajero[i].flycode, pasajero[i].typePassenger,pasajero[i].id);
-								}
-							}
+						printPassengers(pasajero, CANT_PASAJEROS);
 						sortPassengersByName(pasajero, CANT_PASAJEROS, 1);
-						for(int i = 0; i<CANT_PASAJEROS; i++){
-							if(pasajero[i].isEmpty==0){
-								printf("\n\n  Nombre completo:%s %s Precio vuelo: %.2f Codigo de vuelo: %s tipo de pasajero: %i estado de vuelo:  id del pasajero: %i\n\n",pasajero[i].lastName, pasajero[i].name, pasajero[i].price, pasajero[i].flycode, pasajero[i].typePassenger,pasajero[i].id);
-							}
-						}
+						printPassengers(pasajero, CANT_PASAJEROS);
 						}
 					}
 			}
