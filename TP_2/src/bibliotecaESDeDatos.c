@@ -71,6 +71,7 @@ int utn_getString(char retString[], char * pMensaje, char *pMensajeError, int le
 	int i;
 	i=0;
 	flag = 0;
+	int terminoBien;
 	char buffer[51];
 
 	if(retString != NULL && pMensaje != NULL && pMensajeError != NULL && len > 0){
@@ -85,17 +86,19 @@ int utn_getString(char retString[], char * pMensaje, char *pMensajeError, int le
 						//i++;
 					//} Puedo usar para convertir en uppercase todos los caracteres a la hora del sort
 					i++;
-					retorno =0;
+					terminoBien = 1;
 				}
 				else{
 					flag = 1;
-					retorno = -1;
+					terminoBien = 0;
 					}
 		}
-		if(retorno == 0){
+		if(terminoBien == 1){
 			strcpy(retString, buffer);
+			retorno =0;
 		}
 		else{
+			retorno =0;
 			printf("%s",pMensajeError);
 		}
 	}

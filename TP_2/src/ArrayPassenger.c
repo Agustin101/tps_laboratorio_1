@@ -15,8 +15,8 @@
 */
 int initPassengers(Passenger * list, int len){
 	int retorno;
-
 	retorno = -1;
+
 	if(list != NULL && len > 0){
 		for(int i=0; i<len; i++){
 			list[i].isEmpty = 1;
@@ -38,38 +38,38 @@ int initPassengers(Passenger * list, int len){
 * \return int Return (-1) if Error [Invalid length or NULL pointer or without free space] - (0) if Ok
 */
 int addPassenger(Passenger* list, int len, int id, char name[],char lastName[],float price,int typePassenger, char flyCode[]){
-int idPasajero;
+static int idPasajero = 1000;
 int retorno;
 int pudoAsignar;
-
+int indiceVacio;
 pudoAsignar =0;
 
 	if(list != NULL && len>0 && name !=NULL && lastName != NULL && price >0 && typePassenger > 0 && flyCode != NULL ){
-		for(int i=0; i<len;i++){
-			if(list[i].isEmpty == 1){
-				list[i].isEmpty = 0;
-				strcpy(list[i].name, name);
-				strcpy(list[i].lastName, lastName);
-				idPasajero=i+1;
-				list[i].id= idPasajero;
-				list[i].price = price;
-				list[i].typePassenger = typePassenger;
-				strcpy(list[i].flycode, flyCode);
+		indiceVacio = findFreeIndex(list,len);
+		if(indiceVacio != -1){
+				list[indiceVacio].isEmpty = 0;
+				strcpy(list[indiceVacio].name, name);
+				strcpy(list[indiceVacio].lastName, lastName);
+				list[indiceVacio].id= idPasajero;
+				idPasajero++;
+				list[indiceVacio].price = price;
+				list[indiceVacio].typePassenger = typePassenger;
+				strcpy(list[indiceVacio].flycode, flyCode);
 				pudoAsignar = 1;
-				break;
 			}
+		else{
+				printf("No se pudo cargar el pasajero ya que no hay posiciones disponibles.\n");
+				retorno = -1;
+				}
 
 		}
-	}
+
 
 	if(pudoAsignar == 1){
 		printf("Pasajero cargado correctamente.\n");
 		retorno =0;
 	}
-	else{
-		printf("No se pudo cargar el pasajero ya que no hay posiciones disponibles.\n");
-		retorno = -1;
-		}
+
 	return retorno;
 }
 
@@ -104,16 +104,19 @@ return retorno;
 */
 int removePassenger(Passenger* list, int len, int id){
 int retorno;
-
+int indiceVacio;
 retorno = -1;
 
 	if(list != NULL && len > 0 && id > 0){
-		for(int i = 0; i<len; i++){
-			if(list[i].id == id){
-				list[i].isEmpty = 1;
+		indiceVacio = searchIndexForId(list,len,id);
+			if(indiceVacio != -1){
+				list[indiceVacio].isEmpty = 1;
 				retorno = 0;
+				printf("Pasajero eliminado con exito.\n");
 			}
-		}
+			else{
+				printf("El id no coincide con ningun pasajero cargado.\n");
+			}
 	}
 return retorno;
 }
@@ -138,7 +141,7 @@ int sortPassengersByName(Passenger* list, int len, int order){
 			estaOrdenado =1;
 			len--;
 			for(i=0; i<len;i++){
-				if(stricmp(list[i].lastName, list[i+1].lastName) > order){
+				if(stricmp(list[i].lastName, list[i+1].lastName) < order){
 					aux = list[i];
 					list[i] = list[i+1];
 					list[i+1] = aux;
@@ -176,8 +179,55 @@ int sortPassengersByFlyCode(Passenger* list, int len, int order)
 {
 return 0;
 }
+/// @brief Finds a free index in the array of passengers
+///
+/// @param list Passenger*
+/// @param len int
+/// @return int Return (-1) if Error [Invalid length or NULL pointer or if can't find a passenger] - (0) if Ok
+int findFreeIndex(Passenger* list,int len){
+	int retorno ;
+	retorno = -1;
 
+	if (list != NULL && len > 0) {
+			for (int i = 0; i < len; i++) {
+				if (list[i].isEmpty == 1) {
+					retorno = i;
+					break;
+				}
+			}
+		}
+	return retorno;
+}
 
+int thereIsPassenger(Passenger * list, int len){
+	int retorno;
+	retorno = 0;
 
+		if (list != NULL && len > 0) {
+			for (int i = 0; i < len; i++) {
+				if (list[i].isEmpty == 0) {
+					retorno = 1;
+					break;
+				}
+			}
+		}
+		return retorno;
+
+}
+
+int searchIndexForId(Passenger * list , int len, int id){
+	int retorno ;
+	retorno = -1;
+
+		if (list != NULL && len > 0 && id > 0) {
+			for (int i = 0; i < len; i++) {
+				if (list[i].id == id && list[i].isEmpty == 0) {
+					retorno = i;
+					break;
+				}
+			}
+		}
+		return retorno;
+}
 
 
