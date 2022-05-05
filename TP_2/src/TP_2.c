@@ -10,6 +10,8 @@
 int main(void) {
 	setbuf(stdout, NULL);
 	int opcionMenuPrincipal;
+	int opcionSubmenu;
+	int orderAux;
 
 	//declaracion de variables auxiliares para la funcion addpassenger
 	char nombreAux[51];
@@ -42,7 +44,7 @@ int main(void) {
 			}
 			}
 			else{
-				printf("No hay espacio disponible para cargar pasajeros."); //intentar solucionar sin printfs 5/5/2022
+				mensajeErrorGenerico("No hay espacio disponible para arreglar pasajeros.\n");
 			}
 			break;
 		case 2: //MODIFICACIONES DE PASAJEROS
@@ -50,9 +52,9 @@ int main(void) {
 				if(utn_getInt(&idAux, "Ingrese el id del pasajero a modificar", "Por favor, ingrese una id valida.",0,16000,2) == 0){
 					if((r =(findPassengerById(pasajero, 2, idAux)))== idAux){
 						do{
-							r = utn_getInt(&opcionMenuPrincipal, "¿Que desea modificar?:\n1)Nombre\n2)Apellido\n3)Precio\n4)Tipo de pasajero\n5)Codigo de vuelo.\n6)Volver al menu principal", "Por favor, ingrese una opcion valida.",1,6,2);
+							r = utn_getInt(&opcionSubmenu, "¿Que desea modificar?:\n1)Nombre\n2)Apellido\n3)Precio\n4)Tipo de pasajero\n5)Codigo de vuelo.\n6)Volver al menu principal", "Por favor, ingrese una opcion valida.",1,6,2);
 							if(r == 0){
-								switch(opcionMenuPrincipal){
+								switch(opcionSubmenu){
 								case 1:
 									do{
 										r =utn_getString(nombreAux, "Ingrese el nuevo nombre del pasajero:\n", "El nombre solo debe tener caracteres validos (letras y/o espacios.)",51);
@@ -114,18 +116,18 @@ int main(void) {
 									}while(r == -1);
 									break;
 								case 6:
-									printf("Volviendo al menu principal\n.");
+									printf("Volviendo al menu principal.\n");
 								}
 							}
-						}while(opcionMenuPrincipal !=6);
+						}while(opcionSubmenu !=6);
 					}
 					else{
-						printf("El id del pasajero no fue encontrado en el sistema.");
+						mensajeErrorGenerico("El id del pasajero no fue encontrado en el sistema.\n");
 					}
 				}
 			}
 			else{
-				printf("Aun no cargo ningun pasajero.");
+				mensajeErrorGenerico("Aun no cargo ningun pasajero\n");
 			}
 			break;
 		case 3: //BAJA DE CLIENTES correcta no hace falta cambiar 5/5/22
@@ -135,22 +137,24 @@ int main(void) {
 					}
 			}
 			else{
-				printf("Aun no cargo ningun pasajero.\n"); //intentar mostrar mensaje sin print
+				mensajeErrorGenerico("Aun no cargo ningun pasajero.\n");
 			}
 			break;
 		case 4://INFORMES DE CLIENTES  arreglado 5/5/2022
 			if(thereIsPassenger(pasajero, CANT_PASAJEROS)==1){
-					if(utn_getInt(&opcionMenuPrincipal, "¿De que manera desea ver el listado?\n1)Listado de los pasajeros ordenados alfabéticamente por Apellido y Tipo de pasajero,\n2)Total y promedio de los precios de los pasajes, y cuántos pasajeros superan el precio promedio.\n3)Listado de los pasajeros por Código de vuelo y estados de vuelos ‘ACTIVO’ ", "Indique una opcion valida:\n",1,4,2)==0){
-						switch(opcionMenuPrincipal){
+					if(utn_getInt(&opcionSubmenu, "¿De que manera desea ver el listado?\n1)Listado de los pasajeros ordenados alfabéticamente por Apellido y Tipo de pasajero,\n2)Total y promedio de los precios de los pasajes, y cuántos pasajeros superan el precio promedio.\n3)Listado de los pasajeros por Código de vuelo y estados de vuelos ‘ACTIVO’ ", "Indique una opcion valida:\n",1,4,2)==0){
+						switch(opcionSubmenu){
 						case 1:
-						printPassengers(pasajero, CANT_PASAJEROS);
-						sortPassengersByName(pasajero, CANT_PASAJEROS, 1);
-						printPassengers(pasajero, CANT_PASAJEROS);
+							if(utn_getInt(&orderAux, "Indique 0 para descendente o 1 para ascendente.", "Indique una opcion valida:\n",0,1,2)==0){
+						printPassenger(pasajero, CANT_PASAJEROS);
+						sortPassengersByName(pasajero, CANT_PASAJEROS, orderAux);
+						printPassenger(pasajero, CANT_PASAJEROS);
+							}
 						}
 					}
 			}
 			else{
-				printf("Aun no cargo ningun pasajero.\n");
+				mensajeErrorGenerico("Aun no cargo ningun pasajero.\n");
 			}
 			break;
 		case 5: //carga forzada
@@ -160,7 +164,7 @@ int main(void) {
 			break;
 		}
 
-	}}while(opcionMenuPrincipal != 5);
+	}}while(opcionMenuPrincipal != 6);
 
 
 

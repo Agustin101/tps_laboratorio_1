@@ -137,21 +137,48 @@ int sortPassengersByName(Passenger* list, int len, int order){
 	Passenger aux;
 
 	if(list != NULL && len > 0 ){
-		do{
-			estaOrdenado =1;
-			len--;
-			for(i=0; i<len;i++){
-				if(stricmp(list[i].lastName, list[i+1].lastName) < order){
-					aux = list[i];
-					list[i] = list[i+1];
-					list[i+1] = aux;
-					estaOrdenado=0;
+		if (order == 0 ){
+			do{
+				estaOrdenado =1;
+				len--;
+				for(i=0; i<len;i++){
+					if(stricmp(list[i].lastName, list[i+1].lastName) < 1){
+						aux = list[i];
+						list[i] = list[i+1];
+						list[i+1] = aux;
+						estaOrdenado=0;
+					}
+					else if (stricmp(list[i].lastName,list[i + 1].lastName) == 0 && list[i].typePassenger < list[i + 1].typePassenger) {
+						aux = list[i];
+						list[i] = list[i + 1];
+						list[i + 1] = aux;
+						estaOrdenado = 0;
+					}
 				}
-			}
-
 			}while(estaOrdenado ==0);
 			retorno = 0;
 		}
+		else if (order == 1){
+			do{
+				estaOrdenado =1;
+				len--;
+				for(i=0; i<len;i++){
+					if(stricmp(list[i].lastName, list[i+1].lastName) > 1){
+						aux = list[i];
+						list[i] = list[i+1];
+						list[i+1] = aux;
+						estaOrdenado=0;
+					}
+					else if (stricmp(list[i].lastName,list[i + 1].lastName) == 0 && list[i].typePassenger > list[i + 1].typePassenger) {
+						aux = list[i];
+						list[i] = list[i + 1];
+						list[i + 1] = aux;
+						estaOrdenado = 0;
+					}
+				}
+			}while(estaOrdenado ==0);
+		}
+	}
 
 	return retorno;
 }
@@ -165,15 +192,14 @@ int sortPassengersByName(Passenger* list, int len, int order){
 */
 int printPassenger(Passenger* list, int length)
 {
-	int indiceOcupado;
-
 	if(list != NULL && length > 0){
-		indiceOcupado = findOccupedIndex(list, length);
-		if (indiceOcupado != -1){
-			printf("\n\n  Nombre completo:%s %s Precio vuelo: %.2f Codigo de vuelo: %s tipo de pasajero: %i estado de vuelo:  id del pasajero: %i\n\n",list[indiceOcupado].lastName, list[indiceOcupado].name, list[indiceOcupado].price, list[indiceOcupado].flycode, list[indiceOcupado].typePassenger,list[indiceOcupado].id);
+		for(int i =0; i<length; i++){
+			if (list[i].isEmpty == 0){
+				printf("\n\n  Nombre completo:%s %s Precio vuelo: %.2f Codigo de vuelo: %s tipo de pasajero: %i estado de vuelo:  id del pasajero: %i\n\n",list[i].lastName, list[i].name, list[i].price, list[i].flycode, list[i].typePassenger,list[i].id);
+			}
 		}
 	}
-return 0;
+	return 0;
 }
 
 /** \brief Sort the elements in the array of passengers, the argument order indicate UP or DOWN order
@@ -187,6 +213,10 @@ int sortPassengersByFlyCode(Passenger* list, int len, int order)
 {
 return 0;
 }
+
+
+
+
 /// @brief Finds a free index in the array of passengers
 ///
 /// @param list Passenger*
@@ -253,14 +283,4 @@ int findOccupedIndex(Passenger* list,int len){
 	return retorno;
 }
 
-int printPassengers(Passenger* list, int len)
-{
-	int retorno;
 
-	if(list != NULL && len > 0){
-		 for(int i = 0; i< len; i++){
-			printf("\n\n  Nombre completo:%s %s Precio vuelo: %.2f Codigo de vuelo: %s tipo de pasajero: %i estado de vuelo:  id del pasajero: %i\n\n",list[i].lastName, list[i].name, list[i].price, list[i].flycode, list[i].typePassenger,list[i].id);
-		 }
-	}
-return 0;
-}

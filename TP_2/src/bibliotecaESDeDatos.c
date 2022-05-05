@@ -138,7 +138,12 @@ int utn_getFlyCode(char retString[], char * pMensaje, char *pMensajeError, int l
 		return retorno;
 }
 
+int mensajeErrorGenerico(char * mensajeError){
 
+	printf("%s",mensajeError);
+
+	return 0;
+}
 
 
 

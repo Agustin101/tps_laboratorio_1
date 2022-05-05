@@ -30,4 +30,5 @@ int utn_getInt(int * pResultado, char*pMensaje, char*pMensajeError, int minimo, 
 int utn_getFloat(float * pResultado, char*pMensaje, char*pMensajeError, int minimo, int maximo, int reintentos);
 int utn_getString(char retString[], char * pMensaje, char *pMensajeError, int len);
 int utn_getFlyCode(char retString[], char * pMensaje, char *pMensajeError, int len, int reintentos);
+int mensajeErrorGenerico(char * mensajeError);
 #endif /* BIBLIOTECAESDEDATOS_H_ */
