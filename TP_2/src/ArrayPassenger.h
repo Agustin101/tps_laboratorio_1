@@ -12,6 +12,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include "bibliotecaESDeDatos.h"
+
 
 
 struct
@@ -24,13 +26,7 @@ char  flycode[10];
 int   typePassenger;
 int   isEmpty;
 }typedef Passenger;
-/*
-struct {
-    char flyCode[10];
-    char flightStatus[10];
-    int  isEmpty;
-} typedef Flight;
-*/
+
 int addPassenger(Passenger* list, int len, int id, char name[],char lastName[],float price,int typePassenger, char flyCode[]);
 int sortPassengersByFlyCode(Passenger* list, int len, int order);
 int printPassenger(Passenger* list, int length);
@@ -43,7 +39,7 @@ int findFreeIndex(Passenger* list,int len);
 int thereIsPassenger(Passenger * list, int len);
 int searchIndexForId(Passenger * list , int len, int id);
 int findOccupedIndex(Passenger* list,int len);
-
+int modifyPassenger(Passenger * list,int len, int id);
 
 
 

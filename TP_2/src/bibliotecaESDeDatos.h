@@ -14,21 +14,27 @@
 #include <string.h>
 #include <ctype.h>
 
-/// @brief Funcion que se utiliza para obtener un numero en un rango determinado por la misma.
-///
-/// @param pResultado Recibe como parametro un puntero tipo entero
-/// en el cual retorna el numero/opcion seleccionada.
-/// @param pMensaje Recibe como parametro un mensaje que el usuario determina.
-/// @param pMensajeError Recibe como parametro un mensaje de error que el usuario determina.
-/// @param minimo Parametro que indica el numero minimo en el rango.
-/// @param maximo Parametro que indica el numero maximo en el rango.
-/// @param reintentos Parametro que determina la cantidad de reintentos antes de que la funcion
-/// finalice.
-/// @return Retorna 0 en caso de que pueda realizar las validaciones, si una de esta falla
-/// el retorno es -1.
+
 int utn_getInt(int * pResultado, char*pMensaje, char*pMensajeError, int minimo, int maximo, int reintentos);
-int utn_getFloat(float * pResultado, char*pMensaje, char*pMensajeError, int minimo, int maximo, int reintentos);
-int utn_getString(char retString[], char * pMensaje, char *pMensajeError, int len);
-int utn_getFlyCode(char retString[], char * pMensaje, char *pMensajeError, int len, int reintentos);
-int mensajeErrorGenerico(char * mensajeError);
+int getInt(int* pResultado);
+int esNumerica(char* cadena);
+int myGets(char* cadena, int longitud);
+
+int utnGetFloat(float * pResultado, char*pMensaje, char*pMensajeError, int minimo, int maximo, int reintentos);
+int getFloat(float* pResultado);
+int esNumericaDecimal(char* cadena);
+
+
+
+
+int utn_getFlyCode(char retString[], char * pMensaje, char *pMensajeError,  int reintentos);
+int esCodigo(char* cadena);
+
+int mensajeGenerico(char * mensajeError);
+
+int getString(char cadena[],char mensaje[], char mensajeError[], int reintentos);
+int esNombre(char* cadena);
+
+
+
 #endif /* BIBLIOTECAESDEDATOS_H_ */

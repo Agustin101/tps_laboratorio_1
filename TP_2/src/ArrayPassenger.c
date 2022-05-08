@@ -214,9 +214,6 @@ int sortPassengersByFlyCode(Passenger* list, int len, int order)
 return 0;
 }
 
-
-
-
 /// @brief Finds a free index in the array of passengers
 ///
 /// @param list Passenger*
@@ -283,4 +280,82 @@ int findOccupedIndex(Passenger* list,int len){
 	return retorno;
 }
 
+int modifyPassenger(Passenger * list,int len, int id){
+	int retorno = -1;
+	int indiceAModificar;
+	int opcion;
 
+	char nombreAux[51];
+	char apellidoAux[51];
+	float precioAux;
+	char flyCodeAux[10];
+	int typePassengerAux;
+
+
+
+	if(list != NULL && len >0 && id>0 ){
+		indiceAModificar = searchIndexForId(list,len,id);
+		if(indiceAModificar !=-1){
+			do{
+				if(utn_getInt(&opcion,"¿Que desea modificar?\n1)Nombre\n2)Apellido\n3)Precio\n4)Tipo de pasajero\n5)Codigo de vuelo.\n6)Volver al menu principal", "Por favor, ingrese una opcion valida.",1, 6, 2)==0){
+					switch(opcion){
+					case 1:
+						if(getString(nombreAux,"Introduzca el nuevo nombre del pasajero:\n", "El nombre no pudo ser validado, ingreselo nuevamente:\n", 2)==0){
+							strcpy(list[indiceAModificar].name, nombreAux);
+							mensajeGenerico("Nombre actualizado.\n");
+						}
+						else{
+							mensajeGenerico("La modificacion fallo.\n");
+						}
+						break;
+					case 2:
+						if(getString(apellidoAux,"Introduzca el nuevo apellido del pasajero:\n", "El apellido no pudo ser validado, ingreselo nuevamente:\n", 2)==0){
+							strcpy(list[indiceAModificar].lastName, apellidoAux);
+							mensajeGenerico("Apellido actualizado.\n");
+						}
+						else{
+							mensajeGenerico("La modificacion fallo.\n");
+						}
+						break;
+					case 3:
+						if(utnGetFloat(&precioAux,"Ingrese el nuevo precio del viaje:", "El valor es incorrecto, ingreselo nuevamente:\n", 10000, 1000000, 2)==0){
+							list[indiceAModificar].price = precioAux;
+							mensajeGenerico("Precio actualizado.\n");
+						}
+						else{
+							mensajeGenerico("La modificacion fallo.\n");
+						}
+						break;
+					case 4:
+						if(utn_getInt(&typePassengerAux, "Ingrese el nuevo tipo de pasajero:\n1-Primera clase.\n2-Clase ejecutiva.\n3-Clase turista", "Por favor, ingrese una opcion valida.",1,3,2)==0){
+							list[indiceAModificar].typePassenger = typePassengerAux;
+							mensajeGenerico("Tipo de pasajero actualizado.\n");
+						}
+						else{
+							mensajeGenerico("La modificacion fallo.\n");
+						}
+						break;
+					case 5:
+						if(utn_getFlyCode(flyCodeAux, "Ingrese el nuevo codigo de vuelo:\n", "Error, ingrese un codigo alfanumerico:", 2)==0){
+							strcpy(list[indiceAModificar].flycode, flyCodeAux);
+							mensajeGenerico("Codigo de vuelo actualizado.\n");
+						}
+						else{
+							mensajeGenerico("La modificacion fallo.\n");
+						}
+						break;
+					case 6:
+						mensajeGenerico("Volviendo al menu principal...\n\n");
+						break;
+					}
+				}
+				retorno = 0;
+			}while(opcion!=6);
+		}
+		else{
+			mensajeGenerico("El id no pertence a ningun pasajero cargado.\n");
+		}
+
+	}
+	return retorno;
+}
