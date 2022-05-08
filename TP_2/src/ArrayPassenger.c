@@ -82,16 +82,18 @@ pudoAsignar =0;
 */
 int findPassengerById(Passenger* list, int len,int id)
 {
-	int retorno;
+	int retorno ;
 	retorno = -1;
-	if(list != NULL && len > 0 && id>0){
-		for(int i =0; i<len; i++){
-			if(list[i].id == id){
-				retorno = list[i].id;
+
+		if (list != NULL && len > 0 && id > 0) {
+			for (int i = 0; i < len; i++) {
+				if (list[i].id == id && list[i].isEmpty == 0) {
+					retorno = i;
+					break;
+				}
 			}
 		}
-	}
-return retorno;
+		return retorno;
 }
 
 /** \brief Remove a Passenger by Id (put isEmpty Flag in 1)
@@ -104,13 +106,13 @@ return retorno;
 */
 int removePassenger(Passenger* list, int len, int id){
 int retorno;
-int indiceVacio;
+int indiceAEliminar;
 retorno = -1;
 
 	if(list != NULL && len > 0 && id > 0){
-		indiceVacio = searchIndexForId(list,len,id);
-			if(indiceVacio != -1){
-				list[indiceVacio].isEmpty = 1;
+		indiceAEliminar = findPassengerById(list,len,id);
+			if(indiceAEliminar != -1){
+				list[indiceAEliminar].isEmpty = 1;
 				retorno = 0;
 				printf("Pasajero eliminado con exito.\n");
 			}
@@ -250,20 +252,7 @@ int thereIsPassenger(Passenger * list, int len){
 
 }
 
-int searchIndexForId(Passenger * list , int len, int id){
-	int retorno ;
-	retorno = -1;
 
-		if (list != NULL && len > 0 && id > 0) {
-			for (int i = 0; i < len; i++) {
-				if (list[i].id == id && list[i].isEmpty == 0) {
-					retorno = i;
-					break;
-				}
-			}
-		}
-		return retorno;
-}
 
 int findOccupedIndex(Passenger* list,int len){
 	int retorno ;
@@ -294,7 +283,7 @@ int modifyPassenger(Passenger * list,int len, int id){
 
 
 	if(list != NULL && len >0 && id>0 ){
-		indiceAModificar = searchIndexForId(list,len,id);
+		indiceAModificar = findPassengerById(list,len,id);
 		if(indiceAModificar !=-1){
 			do{
 				if(utn_getInt(&opcion,"¿Que desea modificar?\n1)Nombre\n2)Apellido\n3)Precio\n4)Tipo de pasajero\n5)Codigo de vuelo.\n6)Volver al menu principal", "Por favor, ingrese una opcion valida.",1, 6, 2)==0){
