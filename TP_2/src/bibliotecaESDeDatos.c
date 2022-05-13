@@ -212,7 +212,6 @@ int getString(char cadena[],char mensaje[], char mensajeError[], int reintentos)
 	if(mensaje != NULL && cadena != NULL && mensajeError != 0 && reintentos > 0){
 		do{
 		printf("%s", mensaje);
-		fflush(stdin);
 		if (myGets(cadenaAux,sizeof(cadenaAux)) ==0 && esNombre(cadenaAux) == 1){
 			strcpy(cadena, cadenaAux);
 			retorno = 0;
