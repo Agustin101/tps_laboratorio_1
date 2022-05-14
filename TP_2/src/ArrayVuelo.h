@@ -30,5 +30,6 @@ int vuelosActivos(Vuelo *vuelos, int len, char array[][10]);
 int bajaVuelos(Vuelo *vuelos, int len, char  flycode[]);
 int findFlightById(Vuelo *list, int len, char flyCode[]);
 int modificarVuelos(Vuelo *vuelos, int len, char flyCode[], int statusFlight, int flagModifico) ;
+int thereIsFlight(Vuelo *vuelos, int len);
 
 #endif /* ARRAYVUELO_H_ */

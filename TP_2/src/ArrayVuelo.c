@@ -179,7 +179,25 @@ int findFlightById(Vuelo *list, int len, char flyCode[]) {
 	}
 	return retorno;
 }
+/// @brief Verifica si hay al menos un pasajero cargado en el array de pasajeros.
+///
+/// @param vuelos Vuelo*
+/// @param len int
+/// @return Retorna (-1) si tiene error o no puede encontrar un pasajero - 1 si al menos hay uno.
+int thereIsFlight(Vuelo *vuelos, int len) {
+	int retorno;
+	retorno = -1;
 
+	if (vuelos != NULL && len > 0) {
+		for (int i = 0; i < len; i++) {
+			if (vuelos[i].statusFlight == 0) {
+				retorno = 1;
+				break;
+			}
+		}
+	}
+	return retorno;
+}
 
 
 

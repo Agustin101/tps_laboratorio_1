@@ -36,7 +36,7 @@ int main(void) {
 			switch (opcionMenuPrincipal) {
 			case 1:     //ALTAS DE DE PASAJEROS OK 8/5/22
 				if (findFreeIndex(pasajero, CANT_PASAJEROS) != -1) {
-					if (getString(nombreAux,"Introduzca el nombre del pasajero:\n","El nombre no pudo ser validado.\n", 2) == 0&& getString(apellidoAux,"Introduzca el apellido del pasajero:\n","El apellido no pudo ser validado, ingreselo nuevamente:\n",2) == 0 && utnGetFloat(&precioAux,"Ingrese el precio del viaje:","El valor es incorrecto, ingreselo nuevamente:\n",10000, 1000000, 2) == 0&& utn_getFlyCode(flyCodeAux,"Ingrese el codigo de vuelo:\n","Error, ingrese un codigo alfanumerico:", 2)== 0&& utn_getInt(&typePassengerAux,"Ingrese el tipo de pasajero:\n1-Primera clase.\n2-Clase ejecutiva.\n3-Clase turista","Por favor, ingrese una opcion valida.", 1,3, 2) == 0 && utn_getInt(&statusFlightAux,"Ingrese el estado del vuelo:\n1-Activo.\n2-Demorado.\n3-Cancelado.\n","Por favor, ingrese una opcion valida.", 1,3, 2) == 0){
+					if (getString(nombreAux,"Introduzca el nombre del pasajero:\n","El nombre no pudo ser validado.\n", 2) == 0&& getString(apellidoAux,"Introduzca el apellido del pasajero:\n","El apellido no pudo ser validado, ingreselo nuevamente:\n",2) == 0 && utnGetFloat(&precioAux,"Ingrese el precio del viaje:\n","El valor es incorrecto, ingreselo nuevamente:\n",10000, 1000000, 2) == 0&& utn_getFlyCode(flyCodeAux,"Ingrese el codigo de vuelo:\n","Error, ingrese un codigo alfanumerico:\n", 2)== 0&& utn_getInt(&typePassengerAux,"Ingrese el tipo de pasajero:\n1-Primera clase.\n2-Clase ejecutiva.\n3-Clase turista","Por favor, ingrese una opcion valida.", 1,3, 2) == 0 && utn_getInt(&statusFlightAux,"Ingrese el estado del vuelo:\n1-Activo.\n2-Demorado.\n3-Cancelado.\n","Por favor, ingrese una opcion valida.\n", 1,3, 2) == 0){
 						if(addPassenger(pasajero, CANT_PASAJEROS, idAux, nombreAux,apellidoAux, precioAux, typePassengerAux,flyCodeAux)==0){
 							if(addVuelo(vuelos, CANT_PASAJEROS, flyCodeAux,statusFlightAux)==0){
 							vuelosActivos(vuelos, CANT_PASAJEROS, codigoDeVuelos);
@@ -85,23 +85,35 @@ int main(void) {
 							if (utn_getInt(&orderAux,"Indique 0 para descendente o 1 para ascendente.","Indique una opcion valida:\n", 0, 1, 2)== 0) {
 								if(sortPassengersByName(pasajero, CANT_PASAJEROS,orderAux)==0){
 									printPassenger(pasajero, CANT_PASAJEROS);
-									printf("Presione enter para continuar...");
+									mensajeGenerico("Presione una tecla para continuar...\n");
 									fflush(stdin);
 									getchar();
+								}
+								else{
+									mensajeGenerico("El ordenamiento tuvo un error.\n");
 								}
 							}
 							break;
 						case 2:
 							promedioPassengers(pasajero, CANT_PASAJEROS);
+							mensajeGenerico("Presione una tecla para continuar...\n");
+							fflush(stdin);
+							getchar();
 							break;
 						case 3:
 							if (utn_getInt(&orderAux,"Indique 0 para descendente o 1 para ascendente.","Indique una opcion valida:\n", 0, 1, 2)== 0) {
+								if(thereIsFlight(vuelos,CANT_PASAJEROS)==1){
 								vuelosActivos(vuelos, CANT_PASAJEROS,codigoDeVuelos);
 								sortPassengersByStatus(pasajero, vuelos,CANT_PASAJEROS, orderAux);
 								printActivePassengers(pasajero, CANT_PASAJEROS,codigoDeVuelos, vuelos);
-								printf("Presione enter para continuar...");
+								mensajeGenerico("Presione una tecla para continuar...\n");
 								fflush(stdin);
 								getchar();
+								}
+								else
+								{
+									mensajeGenerico("No hay vuelos con estado activo para listar.\n");
+								}
 							}
 							break;
 						case 4:

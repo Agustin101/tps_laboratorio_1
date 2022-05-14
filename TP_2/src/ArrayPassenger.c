@@ -155,7 +155,7 @@ int sortPassengersByName(Passenger *list, int len, int order) {
 					}
 				}
 			} while (estaOrdenado == 0);
-			retorno = 0;
+
 		} else if (order == 1) {
 			do {
 				estaOrdenado = 1;
@@ -178,6 +178,7 @@ int sortPassengersByName(Passenger *list, int len, int order) {
 				}
 			} while (estaOrdenado == 0);
 		}
+		retorno = 0;
 	}
 
 	return retorno;
@@ -305,7 +306,6 @@ int thereIsPassenger(Passenger *list, int len) {
 		}
 	}
 	return retorno;
-
 }
 
 
