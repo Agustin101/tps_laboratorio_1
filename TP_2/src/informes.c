@@ -128,7 +128,13 @@ int forzedPassengers(Passenger *list, Vuelo * vuelos) {
 	if (list != NULL && vuelos != NULL) {
 		if(utn_getInt(&respuesta, "Al realizar la carga forzada eliminara todos los pasajeros cargados de forma manual ¿Esta seguro?\n1-SI\n2-NO", "Indique una opcion valida.", 1, 2, 2) ==0){
 			if(respuesta == 1){
-				list[0].isEmpty = 0;
+						initPassengers(list, CANT_PASAJEROS);
+						initVuelos(vuelos, CANT_PASAJEROS);
+
+
+
+
+						list[0].isEmpty = 0;
 						strcpy(list[0].name, "Pedro");
 						strcpy(list[0].lastName, "Diaz");
 						list[0].id = passengerId();
@@ -140,8 +146,8 @@ int forzedPassengers(Passenger *list, Vuelo * vuelos) {
 						vuelos[0].isEmpty = 0;
 
 						list[1].isEmpty = 0;
-						strcpy(list[1].name, "Claudia");
-						strcpy(list[1].lastName, "Diaz");
+						strcpy(list[1].name, "Tomas");
+						strcpy(list[1].lastName, "Acevey");
 						list[1].id = passengerId();
 						list[1].price = 120000;
 						list[1].typePassenger = 2;
@@ -151,13 +157,13 @@ int forzedPassengers(Passenger *list, Vuelo * vuelos) {
 						vuelos[0].isEmpty = 0;
 
 						list[2].isEmpty = 0;
-						strcpy(list[2].name, "Agustin");
+						strcpy(list[2].name, "Roman");
 						strcpy(list[2].lastName, "Barberis");
 						list[2].id = passengerId();
 						list[2].price = 100000;
 						list[2].typePassenger = 3;
-						strcpy(list[2].flycode, "AGUS101");
-						strcpy(vuelos[1].flyCode, "AGUS101");
+						strcpy(list[2].flycode, "ADC456");
+						strcpy(vuelos[1].flyCode, "ADC456");
 						vuelos[1].statusFlight = ACTIVO;
 						vuelos[1].isEmpty = 0;
 
@@ -167,8 +173,8 @@ int forzedPassengers(Passenger *list, Vuelo * vuelos) {
 						list[3].id = passengerId();
 						list[3].price = 120000;
 						list[3].typePassenger = 1;
-						strcpy(list[3].flycode, "AGUS101");
-						strcpy(vuelos[1].flyCode, "AGUS101");
+						strcpy(list[3].flycode, "ADC456");
+						strcpy(vuelos[1].flyCode, "ADC456");
 						vuelos[1].statusFlight = ACTIVO;
 						vuelos[1].isEmpty = 0;
 

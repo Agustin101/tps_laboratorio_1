@@ -17,7 +17,7 @@
 #define PRIMERACLASE 1
 #define EJECUTIVA 2
 #define TURISTA 3
-
+#define CANT_PASAJEROS 2000
 struct
 {
 	int   id;
