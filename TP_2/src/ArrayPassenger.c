@@ -195,6 +195,9 @@ int printPassenger(Passenger *list, int length) {
 	char tipoPasajeroAux[16];
 
 	if (list != NULL && length > 0) {
+		printf("\n_________________________________________________________________________________");
+		printf("\nNOMBRE         APELLIDO        PRECIO     FLYCODE     TIPO PASAJERO   ID PASAJERO");
+		printf("\n_________________________________________________________________________________");
 		for (int i = 0; i < length; i++) {
 			switch(list[i].typePassenger){
 			case PRIMERACLASE:
@@ -209,7 +212,7 @@ int printPassenger(Passenger *list, int length) {
 			}
 			if (list[i].isEmpty == 0) {
 				printf(
-						"\n\nNombre completo: %-15s%-15s Precio vuelo: $%-9.2f Codigo de vuelo:%-10s Tipo de pasajero: %-15s Id del pasajero: %-5i\n\n",
+						"\n%-15s%-15s $%-9.2f %-10s  %-15s %-5i\n\n",
 						list[i].lastName, list[i].name, list[i].price,
 						list[i].flycode, tipoPasajeroAux,
 						 list[i].id);
@@ -337,7 +340,7 @@ int modifyPassenger(Passenger *list, int len, int id, char * flyCode, int * stat
 		if (indiceAModificar != -1) {
 			do {
 				if (utn_getInt(&opcion,
-						"¿Que desea modificar?\n1)Nombre\n2)Apellido\n3)Precio\n4)Tipo de pasajero\n5)Codigo de vuelo.\n6)Volver al menu principal",
+						"¿Que desea modificar?\n\n1)Nombre\n\n2)Apellido\n\n3)Precio\n\n4)Tipo de pasajero\n\n5)Codigo de vuelo.\n\n6)Volver al menu principal",
 						"Por favor, ingrese una opcion valida.", 1, 6, 2)
 						== 0) {
 					switch (opcion) {

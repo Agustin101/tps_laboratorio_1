@@ -32,7 +32,7 @@ int main(void) {
 	initVuelos(vuelos, CANT_PASAJEROS);
 
 	do {
-		if (utn_getInt(&opcionMenuPrincipal,"Bienvenido al sistema. ¿Que desea hacer?\n1)Alta de pasajero.\n2)Modificar pasajero.\n3)Baja de un pasajero.\n4)Informes.\n5)Carga forzada de 5 pasajeros.\n6)Cerrar programa.","Por favor, ingrese una opcion valida.", 1, 6, 2) == 0) {
+		if (utn_getInt(&opcionMenuPrincipal,"Bienvenido al sistema. ¿Que desea hacer?\n1)Alta de pasajero.\n\n2)Modificar pasajero.\n\n3)Baja de un pasajero.\n\n4)Informes.\n\n5)Carga forzada de 5 pasajeros.\n\n6)Cerrar programa.\n","Por favor, ingrese una opcion valida.", 1, 6, 2) == 0) {
 			switch (opcionMenuPrincipal) {
 			case 1:
 				if (findFreeIndex(pasajero, CANT_PASAJEROS) != -1) {
@@ -79,7 +79,7 @@ int main(void) {
 				break;
 			case 4:
 				if (thereIsPassenger(pasajero, CANT_PASAJEROS) == 1) {
-					if (utn_getInt(&opcionSubmenu,"¿De que manera desea ver el listado?\n1)Listado de los pasajeros ordenados alfabéticamente por Apellido y Tipo de pasajero,\n2)Total y promedio de los precios de los pasajes, y cuántos pasajeros superan el precio promedio.\n3)Listado de los pasajeros por Código de vuelo y estados de vuelos ‘ACTIVO’\n4)Volver al menu principal. ","Indique una opcion valida:\n", 1, 4, 2) == 0) {
+					if (utn_getInt(&opcionSubmenu,"¿De que manera desea ver el listado?\n1)Listado de los pasajeros ordenados alfabéticamente por Apellido y Tipo de pasajero.\n\n2)Total y promedio de los precios de los pasajes, y cuántos pasajeros superan el precio promedio.\n\n3)Listado de los pasajeros por Código de vuelo y estados de vuelos 'ACTIVO'\n\n4)Volver al menu principal.\n ","Indique una opcion valida:\n", 1, 4, 2) == 0) {
 						switch (opcionSubmenu) {
 						case 1:
 							if (utn_getInt(&orderAux,"Indique 0 para descendente o 1 para ascendente.","Indique una opcion valida:\n", 0, 1, 2)== 0) {

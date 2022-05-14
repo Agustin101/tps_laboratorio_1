@@ -73,11 +73,12 @@ int printActivePassengers(Passenger *list, int length, char vuelosActivos[][10],
 	int retorno = -1;
 
 	if (list != NULL && length > 0 && vuelos != NULL && vuelosActivos != NULL) {
-
+		printf("\n_________________________________________________________________________________________");
+		printf("\nAPELLIDO       NOMBRE          PRECIO     FLYCODE     TIPO PASAJERO   ID  ESTADO DE VUELO");
+		printf("\n_________________________________________________________________________________________");
 		for (int i = 0; i < length; i++) {
-
-
 			if (list[i].isEmpty == 0 ) {
+
 				for(int j = 0; j < length; j++){
 					if(stricmp(list[i].flycode,vuelos[j].flyCode) ==0 && vuelos[j].isEmpty == 0 && vuelos[j].statusFlight == ACTIVO){
 						switch(list[i].typePassenger){
@@ -102,7 +103,7 @@ int printActivePassengers(Passenger *list, int length, char vuelosActivos[][10],
 											strcpy(estadoDeVuelo, "Cancelado");
 										break;
 									}
-						printf(	"\n\nNombre completo: %-15s%-15s Precio vuelo: $%-9.2f Codigo de vuelo:%-10s Tipo de pasajero: %-15s Id del pasajero: %-5i Estado de vuelo:%-10s\n\n",
+						printf(	"\n%-15s%-15s $%-9.2f %-10s  %-15s %-5i   %-15s\n",
 												list[i].lastName, list[i].name, list[i].price,
 												list[i].flycode, tipoPasajeroAux,
 												 list[i].id,estadoDeVuelo);
