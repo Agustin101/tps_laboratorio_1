@@ -13,6 +13,7 @@
 
 int sortPassengersByStatus(Passenger *list, Vuelo *vuelos, int len, int order);
 int printActivePassengers(Passenger *list, int length, char vuelosActivos[][10], Vuelo *vuelos);
+int forzedPassengers(Passenger *list, Vuelo * vuelos);
 
 
 

@@ -217,7 +217,7 @@ int printPassenger(Passenger *list, int length) {
 	}
 	return 0;
 }
-// pasar a vuelos.c
+
 /** \brief Sort the elements in the array of passengers, the argument order indicate UP or DOWN order
  *
  * \param list Passenger*
@@ -225,7 +225,6 @@ int printPassenger(Passenger *list, int length) {
  * \param order int [1] indicate UP - [0] indicate DOWN
  * \return int Return (-1) if Error [Invalid length or NULL pointer] - (0) if Ok*
  */
-
 int sortPassengersByFlyCode(Passenger *list, int len, int order) {
 	int retorno;
 	int i;
@@ -288,6 +287,11 @@ int findFreeIndex(Passenger *list, int len) {
 	return retorno;
 }
 
+/// @brief Verifica si hay al menos un pasajero cargado en el array de pasajeros.
+///
+/// @param list Passenger*
+/// @param len int
+/// @return int Retorna (-1) si tiene error o no puede encontrar un pasajero - 1 si al menos hay uno.
 int thereIsPassenger(Passenger *list, int len) {
 	int retorno;
 	retorno = 0;
@@ -304,22 +308,19 @@ int thereIsPassenger(Passenger *list, int len) {
 
 }
 
-int findOccupedIndex(Passenger *list, int len) {
-	int retorno;
-	retorno = -1;
 
-	if (list != NULL && len > 0) {
-		for (int i = 0; i < len; i++) {
-			if (list[i].isEmpty == 0) {
-				retorno = i;
-				break;
-			}
-		}
-	}
-	return retorno;
-}
-
-int modifyPassenger(Passenger *list, int len, int id, char * flyCode, int * statusFlight, char * flycodeAnterior) {
+/// @brief Modifica un campo del pasajero indicando por el usuario.En caso de modificar el estado del vuelo
+/// retorna por puntero una flag en 1 la cual es usada para modificar el estado de vuelo y el codigo de vuelo
+/// en la estructura de vuelos.
+///
+/// @param list Passenger
+/// @param len int
+/// @param id int
+/// @param flyCode Codigo de vuelo retornado para la modificacion de la estructura de vuelos.
+/// @param statusFlight Estado de vuelo retornado para la modificacion de la estructura de vuelos.
+/// @param modificoVuelo Flag retornado para la modificacion de la estructura de vuelos.
+/// @return int Retorna (-1) si tiene error  - 1 si pudo realizar los cambios correctamente.
+int modifyPassenger(Passenger *list, int len, int id, char * flyCode, int * statusFlight, int * modificoVuelo) {
 	int retorno = -1;
 	int indiceAModificar;
 	int opcion;
@@ -341,60 +342,54 @@ int modifyPassenger(Passenger *list, int len, int id, char * flyCode, int * stat
 						== 0) {
 					switch (opcion) {
 					case 1:
-						if (getString(nombreAux,
-								"Introduzca el nuevo nombre del pasajero:\n",
-								"El nombre no pudo ser validado, ingreselo nuevamente:\n",
-								2) == 0) {
+						if (getString(nombreAux,"Introduzca el nuevo nombre del pasajero:\n","El nombre no pudo ser validado, ingreselo nuevamente:\n",2) == 0) {
 							strcpy(list[indiceAModificar].name, nombreAux);
-							strncpy(list[indiceAModificar].name, nombreAux,
-									sizeof(list[indiceAModificar].name));
+							strncpy(list[indiceAModificar].name, nombreAux,sizeof(list[indiceAModificar].name));
+							retorno = 0;
+							*modificoVuelo=0;
 							mensajeGenerico("Nombre actualizado.\n");
 						} else {
 							mensajeGenerico("La modificacion fallo.\n");
 						}
 						break;
 					case 2:
-						if (getString(apellidoAux,
-								"Introduzca el nuevo apellido del pasajero:\n",
-								"El apellido no pudo ser validado, ingreselo nuevamente:\n",
-								2) == 0) {
-							strcpy(list[indiceAModificar].lastName,
-									apellidoAux);
+						if (getString(apellidoAux,"Introduzca el nuevo apellido del pasajero:\n","El apellido no pudo ser validado, ingreselo nuevamente:\n",2) == 0) {
+							strcpy(list[indiceAModificar].lastName,apellidoAux);
 							mensajeGenerico("Apellido actualizado.\n");
+							retorno = 0;
+							*modificoVuelo=0;
 						} else {
 							mensajeGenerico("La modificacion fallo.\n");
 						}
 						break;
 					case 3:
-						if (utnGetFloat(&precioAux,
-								"Ingrese el nuevo precio del viaje:",
-								"El valor es incorrecto, ingreselo nuevamente:\n",
-								10000, 1000000, 2) == 0) {
+						if (utnGetFloat(&precioAux,"Ingrese el nuevo precio del viaje:","El valor es incorrecto, ingreselo nuevamente:\n",10000, 1000000, 2) == 0) {
 							list[indiceAModificar].price = precioAux;
 							mensajeGenerico("Precio actualizado.\n");
+							retorno = 0;
+							*modificoVuelo=0;
 						} else {
 							mensajeGenerico("La modificacion fallo.\n");
 						}
 						break;
 					case 4:
-						if (utn_getInt(&typePassengerAux,
-								"Ingrese el nuevo tipo de pasajero:\n1-Primera clase.\n2-Clase ejecutiva.\n3-Clase turista",
-								"Por favor, ingrese una opcion valida.", 1, 3,
-								2) == 0) {
-							list[indiceAModificar].typePassenger =
-									typePassengerAux;
+						if (utn_getInt(&typePassengerAux,"Ingrese el nuevo tipo de pasajero:\n1-Primera clase.\n2-Clase ejecutiva.\n3-Clase turista","Por favor, ingrese una opcion valida.", 1, 3,2) == 0) {
+							retorno = 0;
+							list[indiceAModificar].typePassenger =typePassengerAux;
 							mensajeGenerico("Tipo de pasajero actualizado.\n");
+							*modificoVuelo=0;
 						} else {
 							mensajeGenerico("La modificacion fallo.\n");
 						}
 						break;
 					case 5:
 						if (utn_getFlyCode(flyCodeAux,"Ingrese el nuevo codigo de vuelo:\n","Error, ingrese un codigo alfanumerico:", 2)== 0 && utn_getInt(&statusFlightAux,"Ingrese el estado del vuelo:\n1-Activo.\n2-Demorado.\n3-Cancelado.\n","Por favor, ingrese una opcion valida.", 1, 3, 2)==0) {
-							strcpy(flycodeAnterior, list[indiceAModificar].flycode);
 							strcpy(list[indiceAModificar].flycode, flyCodeAux);
 							strcpy(flyCode, flyCodeAux);
 							*statusFlight = statusFlightAux;
 							mensajeGenerico("Codigo de vuelo actualizado.\n");
+							*modificoVuelo = 1;
+							retorno = 0;
 						}
 						else {
 							mensajeGenerico("La modificacion fallo.\n");
@@ -405,7 +400,6 @@ int modifyPassenger(Passenger *list, int len, int id, char * flyCode, int * stat
 						break;
 					}
 				}
-				retorno = 0;
 			} while (opcion != 6);
 		} else {
 			mensajeGenerico("El id no pertence a ningun pasajero cargado.\n");
@@ -415,6 +409,11 @@ int modifyPassenger(Passenger *list, int len, int id, char * flyCode, int * stat
 	return retorno;
 }
 
+/// @brief Calcula el total, promedio de precio de los pasajes y cuantos pasajaeros superan este promedio
+///
+/// @param list Passenger
+/// @param len int
+/// @return Retorna -1 si fallo una validacion - 0 si esta okey
 int promedioPassengers(Passenger *list, int len) {
 	int retorno = -1;
 	float totalPrecio = 0;
@@ -447,66 +446,10 @@ int promedioPassengers(Passenger *list, int len) {
 	return retorno;
 }
 
-/// @brief Agrega en la lista de pasajeros existente 5 usuarios de manera automatica en los primeros 5 posiciones.
+
+/// @brief Genera una id autoinrecemental.
 ///
-/// @param listPassenger *
-/// @return Return (-1) if Error [Invalid length or NULL pointer] - (0) if Ok*
-
-int forzedPassengers(Passenger *list) {
-	int retorno;
-	retorno = -1;
-
-	if (list != NULL) {
-
-
-		list[0].isEmpty = 0;
-		strcpy(list[0].name, "Pedro");
-		strcpy(list[0].lastName, "Diaz");
-		list[0].id = passengerId();
-		list[0].price = 160000;
-		list[0].typePassenger = 1;
-		strcpy(list[0].flycode, "ADC123");
-		//list[0].statusFlight = 1; PASAR A LA OTRA ESTRUCUTRA
-
-		list[1].isEmpty = 0;
-		strcpy(list[1].name, "Claudia");
-		strcpy(list[1].lastName, "Diaz");
-		list[1].id = passengerId();
-		list[1].price = 120000;
-		list[1].typePassenger = 2;
-		strcpy(list[1].flycode, "ADC123");
-
-
-		list[2].isEmpty = 0;
-		strcpy(list[2].name, "Agustin");
-		strcpy(list[2].lastName, "Barberis");
-		list[2].id = passengerId();
-		list[2].price = 100000;
-		list[2].typePassenger = 2;
-		strcpy(list[2].flycode, "AGUS101");
-
-
-		list[3].isEmpty = 0;
-		strcpy(list[3].name, "Sol");
-		strcpy(list[3].lastName, "Carpinetti");
-		list[3].id = passengerId();
-		list[3].price = 120000;
-		list[3].typePassenger = 3;
-		strcpy(list[3].flycode, "AGUS101");
-
-
-		list[4].isEmpty = 0;
-		strcpy(list[4].name, "Miguel");
-		strcpy(list[4].lastName, "DBarberis");
-		list[4].id = passengerId();
-		list[4].price = 100000;
-		list[4].typePassenger = 1;
-		strcpy(list[4].flycode, "AGUS101");
-
-	}
-	return retorno;
-}
-
+/// @return Retorna el numero de id.
 int passengerId(void) {
 	static int id = 999;
 	id++;

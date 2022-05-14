@@ -36,15 +36,9 @@ int sortPassengersByName(Passenger* list, int len, int order);
 int removePassenger(Passenger *list, int len, int id, char * flycodeAnterior) ;
 int findPassengerById(Passenger* list, int len,int id);
 int initPassengers(Passenger* list, int len);
-
 int findFreeIndex(Passenger* list,int len);
 int thereIsPassenger(Passenger * list, int len);
-
-int findOccupedIndex(Passenger* list,int len);
-int modifyPassenger(Passenger *list, int len, int id, char * flyCode, int * statusFlight, char * flycodeAnterior);
-
+int modifyPassenger(Passenger *list, int len, int id, char * flyCode, int * statusFlight, int * modificoVuelo);
 int promedioPassengers(Passenger * list, int len );
-
-int forzedPassengers(Passenger * list);
 int passengerId(void);
 #endif /* ARRAYPASSENGER_H_ */

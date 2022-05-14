@@ -6,7 +6,7 @@
  */
 #include "bibliotecaESDeDatos.h"
 
-/// @brief Funcion que se utiliza para obtener un numero en un rango determinado por la misma.
+/// @brief Funcion que se utiliza para obtener un numero entero en un rango determinado por la misma.
 ///
 /// @param pResultado Puntero al espacio de memoria donde se dejara el resultado de la funcion
 /// @param pMensaje Es el mensaje a ser mostrado
@@ -108,6 +108,16 @@ int myGets(char* cadena, int longitud){
 return retorno;
 }
 
+/// @brief Funcion que se utiliza para obtener un numero decimal en un rango determinado por la misma.
+///
+/// @param pResultado Puntero al espacio de memoria donde se dejara el resultado de la funcion
+/// @param pMensaje Es el mensaje a ser mostrado
+/// @param pMensajeError Es el mensaje de error a ser mostrado
+/// @param minimo El numero minimo a ser aceptado
+/// @param maximo minimo El numero maximo a ser aceptado
+/// @param reintentos Parametro que determina la cantidad de reintentos antes de que la funcion
+/// finalice.
+/// @return Retorna 0 si se obtuvo el numero y -1 si no
 int utnGetFloat(float * pResultado, char*pMensaje, char*pMensajeError, int minimo, int maximo, int reintentos){
 	int retorno;
 	float buffer;
@@ -137,6 +147,10 @@ int utnGetFloat(float * pResultado, char*pMensaje, char*pMensajeError, int minim
 	return retorno;
 }
 
+/// @brief Verifica si la cadena ingresada es numerica decimal
+///
+/// @param pResultado Puntero al espacio de memoria donde se dejara el resultado de la funcion
+/// @return   Retorna 1 (EXITO) si se obtiene un numero flotante y -1 (ERROR) si no
 int getFloat(float* pResultado){
 	int retorno;
 	retorno = -1;
@@ -151,6 +165,10 @@ int getFloat(float* pResultado){
 	return retorno;
 }
 
+/// @brief Verifica si la cadena ingresada es flotante
+///
+/// @param cadena Cadena de caracteres a ser analizada
+/// @return Retorna 1 (vardadero) si la cadena es flotante y 0 (falso) si no lo es
 int esNumericaDecimal(char* cadena)
 {
 	int i = 0;
@@ -175,7 +193,14 @@ int esNumericaDecimal(char* cadena)
 	return retorno;
 }
 
-
+/// @brief Obtiene un codigo de vuelo alfanumerico
+///
+/// @param retString Puntero al espacio de memoria donde se dejara el resultado de la funcion
+/// @param pMensaje Es el mensaje a ser mostrado
+/// @param pMensajeError Es el mensaje de error a ser mostrado
+/// @param reintentos reintentos Parametro que determina la cantidad de reintentos antes de que la funcion
+/// finalice.
+/// @return Retorna 0 si se obtuvo el codigo y -1 si no
 int utn_getFlyCode(char retString[], char * pMensaje, char *pMensajeError,  int reintentos){
 	int retorno;
 	char buffer[10];
@@ -198,14 +223,22 @@ int utn_getFlyCode(char retString[], char * pMensaje, char *pMensajeError,  int 
 		}
 	return retorno;
 }
+/// @brief Imprime un mensaje generico
+///
+/// @param Es el mensaje a ser mostrado
+/// @return 0 al mostrar el mensaje
+int mensajeGenerico(char * mensaje){
 
-int mensajeGenerico(char * mensajeError){
-
-	printf("%s",mensajeError);
-
+	printf("%s",mensaje);
 	return 0;
 }
-
+/// @brief Obtiene una cadena de caracteres valido conformado por letras o espacios.
+///
+/// @param cadena cadena
+/// @param mensaje Es el mensaje a ser mostrado
+/// @param mensajeError Es el mensaje de error a ser mostrado
+/// @param reintentos Reintentos Parametro que determina la cantidad de reintentos antes de que la funcion
+/// @return Retorna 0 si se obtuvo la cadena de caracteres y -1 si no
 int getString(char cadena[],char mensaje[], char mensajeError[], int reintentos){
 	int retorno = -1;
 	char cadenaAux[51];
@@ -229,7 +262,10 @@ int getString(char cadena[],char mensaje[], char mensajeError[], int reintentos)
 	return retorno;
 }
 
-
+/// @brief Verifica si la cadena ingresada es un nombre(letras y espacios)
+///
+/// @param cadena cadena
+/// @return Retorna 1 si es valida 0 si fallo alguna validacion.
 int esNombre(char* cadena)
 {
 	int ret=1;
@@ -251,7 +287,10 @@ int esNombre(char* cadena)
 
 return ret;
 }
-
+/// @brief Verifica si la cadena ingresada es un codigo alfanumerico
+///
+/// @param cadena cadena
+/// @return Retorna 1 si es valida 0 si fallo alguna validacion.
 int esCodigo(char* cadena)
 {
 	int ret=1;

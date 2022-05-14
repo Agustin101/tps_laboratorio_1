@@ -19,19 +19,12 @@ int utn_getInt(int * pResultado, char*pMensaje, char*pMensajeError, int minimo, 
 int getInt(int* pResultado);
 int esNumerica(char* cadena);
 int myGets(char* cadena, int longitud);
-
 int utnGetFloat(float * pResultado, char*pMensaje, char*pMensajeError, int minimo, int maximo, int reintentos);
 int getFloat(float* pResultado);
 int esNumericaDecimal(char* cadena);
-
-
-
-
 int utn_getFlyCode(char retString[], char * pMensaje, char *pMensajeError,  int reintentos);
 int esCodigo(char* cadena);
-
-int mensajeGenerico(char * mensajeError);
-
+int mensajeGenerico(char * mensaje);
 int getString(char cadena[],char mensaje[], char mensajeError[], int reintentos);
 int esNombre(char* cadena);
 
