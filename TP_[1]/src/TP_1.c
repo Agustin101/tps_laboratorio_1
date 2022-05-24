@@ -92,7 +92,8 @@ int main(void){
 			}
 			printf("Presione enter para continuar...");
 			fflush(stdin);
-			getchar();
+
+
 			break;
 		case 5:
 			kmsDelViaje = 7090;
