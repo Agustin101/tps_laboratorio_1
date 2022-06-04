@@ -20,13 +20,18 @@
 
 
 
-int main()
-{
-
+int main(){
 	setbuf(stdout,NULL);
 
     int option = 0;
+    int r;
+    Passenger * pasajero;
     LinkedList* listaPasajeros = ll_newLinkedList();
+
+    ll_add(listaPasajeros, pasajero);
+    ll_add(listaPasajeros, pasajero);
+    r = ll_len(listaPasajeros);
+    printf("%d",r);
     do{
         switch(option)
         {
