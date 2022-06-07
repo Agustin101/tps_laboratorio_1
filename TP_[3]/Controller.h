@@ -7,5 +7,20 @@ int controller_ListPassenger(LinkedList* pArrayListPassenger);
 int controller_sortPassenger(LinkedList* pArrayListPassenger);
 int controller_saveAsText(char* path , LinkedList* pArrayListPassenger);
 int controller_saveAsBinary(char* path , LinkedList* pArrayListPassenger);
+int controller_sortById(void* primerElemento, void* segundoElemento);
+int controller_sortByName(void* primerElemento, void* segundoElemento);
+int controller_sortByLastName(void* primerElemento, void* segundoElemento);
+int controller_sortByPrice(void* primerElemento, void* segundoElemento);
+int controller_sortByFlyCode(void* primerElemento, void* segundoElemento);
+int controller_sortByTypePassenger(void* primerElemento, void* segundoElemento);
+int controller_sortByFlightStatus(void* primerElemento, void* segundoElemento);
+
+
+
+
+int controller_generarId( LinkedList* pArrayListPassenger);
+//int controller_generarId( LinkedList* pArrayListPassenger, char * pathCsv, char * pathBinary);
+//int controller_generarIdFromText(char* path , LinkedList* pArrayListPassenger);
+//int controller_generarId(char* pathCsv , LinkedList* pArrayListPassenger, char * pathBina);
 
 
