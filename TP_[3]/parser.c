@@ -53,14 +53,24 @@ int parser_PassengerFromText(FILE* pFile , LinkedList* pArrayListPassenger){
 int parser_PassengerFromBinary(FILE* pFile , LinkedList* pArrayListPassenger){
 	int retorno = -1;
 	int cantidad;
+    int id;
+    char name[50];
+    char lastName[50];
+    float price;
+    int typePassenger;
+    char flyCode[10];
+    char flightStatus[50];
 
 	Passenger * pAux = NULL;
 	if(pFile != NULL && pArrayListPassenger != NULL){
 		while(!feof(pFile)){
+			pAux=Passenger_new();
 			cantidad = fread(pAux, sizeof(Passenger),1,pFile);
 			if(cantidad == 1){
-				pAux=Passenger_new();
-				if(pAux != NULL){
+				if(pAux != NULL && !Passenger_getApellido(pAux, lastName) && !Passenger_getId(pAux, &id)
+						&& !Passenger_getNombre(pAux, name) && !Passenger_getPrecio(pAux, &price)
+						&& !Passenger_getTipoPasajero(pAux, &typePassenger) && !Passenger_getCodigoVuelo(pAux, flyCode)
+						&& !Passenger_getStatusFlight(pAux, flightStatus)){
 					ll_add(pArrayListPassenger, pAux);
 					retorno = 0;
 				}
@@ -73,100 +83,58 @@ int parser_PassengerFromBinary(FILE* pFile , LinkedList* pArrayListPassenger){
     return retorno;
 }
 
-///** \brief Parsea los datos los ids de los pasajeros desde el archivo data.csv (modo texto).
-// *
-// * \param path char*
-// * \param pArrayListPassenger LinkedList*
-// * \return int retorna -1 si reciba un archivo o lista nula y 0 si puede cargar al menos un id.
-// *
-// */
-//int parser_idsFromText(FILE* pFile , LinkedList* pArrayListPassenger, int * ultimoId){
-//	int retorno = -1;
-//	int cantidadCampos;
-//	char bufferId[50];
-//	int idAnterior;
-//	int maximoId;
-//	int flag = 0;
-//	char bufferName[50];
-//	char bufferLastName[50];
-//	char bufferPrice[50];
-//	char bufferFlyCode[10];
-//	char bufferTypePassenger[50];
-//	char bufferStatusFlight[50];
-//
-//	if(pFile != NULL && pArrayListPassenger != NULL){
-//		while(!feof(pFile)){
-//			cantidadCampos = fscanf(pFile, "%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^\n]\n",bufferId,bufferName,bufferLastName,bufferPrice,bufferFlyCode,bufferTypePassenger,bufferStatusFlight);
-//			if(cantidadCampos == 7){
-//				idAnterior = atoi(bufferId);
-//				if(flag == 0 || idAnterior > maximoId){
-//					printf("-id-%d-",idAnterior);
-//					maximoId = idAnterior;
-//					flag = 1;
-//				}
-//			}
-//		}
-//		retorno = 0;
-//		*ultimoId = maximoId;
-//		printf("\nultimo id %d",maximoId);
-//	}
-//    return retorno;
-//}
 
-//int parser_idFromBinary(FILE* pFile , LinkedList* pArrayListPassenger, int * ultimoId){
-//	int retorno = -1;
-//	int cantidad;
-//	int idAnterior;
-//	int maximoId;
-//	int flag = 0;
-//
-//	Passenger * pAux = NULL;
-//
-//	if(pFile != NULL && pArrayListPassenger != NULL){
-//		while(!feof(pFile)){
-//			printf("cuantite");
-//				cantidad = fread(pAux, sizeof(Passenger),1,pFile);
-//				if(cantidad == 1){
-//					printf("rompi antes del get");
-//					Passenger_getId(pAux, &idAnterior);
-//					printf("Rompi despues");
-//					if(flag == 0 || idAnterior > maximoId){
-//						printf("-id-%d-",idAnterior);
-//						maximoId = idAnterior;
-//						flag = 1;
-//					}
-//
-//				}
-//
-//		}
-//		retorno = 0;
-//		*ultimoId = maximoId;
-//		printf("\nultimo id %d",maximoId);
-//	}
-//    return retorno;
-//}
 
-//int parser_PassengerFromBinary(FILE* pFile , LinkedList* pArrayListPassenger){
-//	int retorno = -1;
-//	int cantidad;
-//
-//	Passenger * pAux = NULL;
-//	if(pFile != NULL && pArrayListPassenger != NULL){
-//		while(!feof(pFile)){
-//			pAux=Passenger_new();
-//			if(pAux != NULL){
-//				cantidad = fread(pAux, sizeof(Passenger),1,pFile);
-//				if(cantidad == 1){
-//					ll_add(pArrayListPassenger, pAux);
-//					retorno = 0;
-//				}
-//				else{
-//					Passenger_delete(pAux);
-//				}
-//			}
-//		}
-//	}
-//    return retorno;
-//}
+
+///** \brief Obtiene el ultimo id asignado desde el archivo data.csv (modo texto).
+///
+///\param path char*
+/// \param pArrayListPassenger LinkedList*
+///\return int retorna -1 si reciba un archivo o lista nula y 0 si puede cargar al menos un id.
+int parser_idsFromText(FILE* pFile){
+	int retorno = -1;
+	int cantidadCampos;
+	char bufferId[50];
+	int idAnterior;
+
+	if(pFile != NULL){
+		while(!feof(pFile)){
+			cantidadCampos = fscanf(pFile, "%[^\n]\n",bufferId);
+			if(cantidadCampos == 1){
+				idAnterior = atoi(bufferId);
+			}
+		}
+		retorno = idAnterior;
+	}
+    return retorno;
+}
+
+int parser_idFromBinary(FILE* pFile , LinkedList* pArrayListPassenger, int * ultimoId){
+	int retorno = -1;
+	int cantidad;
+	int idAnterior;
+	int maximoId;
+	int flag = 0;
+
+	Passenger * pAux = NULL;
+
+	if(pFile != NULL && pArrayListPassenger != NULL){
+		while(!feof(pFile)){
+				pAux=Passenger_new();
+				cantidad = fread(pAux, sizeof(Passenger),1,pFile);
+				if(cantidad == 1){
+					Passenger_getId(pAux, &idAnterior);
+					if(flag == 0 || idAnterior > maximoId){
+						maximoId = idAnterior;
+						flag = 1;
+					}
+				}
+		}
+		retorno = 0;
+		*ultimoId = maximoId;
+	}
+    return retorno;
+}
+
 
 

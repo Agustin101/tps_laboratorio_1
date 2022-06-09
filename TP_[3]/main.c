@@ -9,20 +9,21 @@ int main(){
 	setbuf(stdout,NULL);
 
     int option = 0;
-    LinkedList* listaPasajeros = ll_newLinkedList();
     int flagGuardado=0;
     int flagArchivo = 0;
     int retorno;
     int respuesta = 1;
 
+    LinkedList* listaPasajeros = ll_newLinkedList();
+
     do{
     	option = menuPrincipal();
         switch(option){
            case 1:
+        	   respuesta = 0;
             	if(flagArchivo == 0 && !controller_loadFromText(ARCHIVO_TXT,listaPasajeros)){
     				printf("El archivo se pudo leer y cerrar correctamente.\n");
     				flagArchivo = 1;
-    				respuesta = 0;
             	}
             	else if(flagArchivo == 1){
             		printf("No puede cargar el archivo de pasajeros dos veces.\n");
@@ -32,10 +33,10 @@ int main(){
             	}
             break;
         	case 2:
+        		respuesta = 0;
         		if(flagArchivo == 0 && !controller_loadFromBinary(ARCHIVO_BIN,listaPasajeros)  ){
     				printf("\nEl archivo se pudo leer y cerrar correctamente.\n");
     				flagArchivo = 1;
-    				respuesta = 0;
         		}
         		else if(flagArchivo == 1){
             		printf("No puede cargar el archivo de pasajeros dos veces.\n");
@@ -45,6 +46,7 @@ int main(){
         		}
         	break;
         	case 3:
+        		respuesta = 0;
         		if(!controller_addPassenger(listaPasajeros)){
 					printf("\nPasajero dado de alta con exito.\n");
         		}
@@ -53,6 +55,7 @@ int main(){
         		}
         	break;
         	case 4:
+        		respuesta = 0;
         		retorno = controller_editPassenger(listaPasajeros);
         		if(retorno==-1){
         			printf("El id ingresado no corresponde a ningun pasajero en la lista.\n");
@@ -62,6 +65,7 @@ int main(){
         		}
         	break;
         	case 5:
+        		respuesta = 0;
         		retorno = controller_removePassenger(listaPasajeros);
         		if(retorno == 0){
 					printf("Pasajero eliminado del sistema con exito.");
@@ -74,6 +78,7 @@ int main(){
         		 }
         	break;
         	case 6:
+        		respuesta = 0;
         		retorno = controller_ListPassenger(listaPasajeros);
         		if(retorno == 0){
 					printf("Lista impresa correctamente.\n");
@@ -86,6 +91,7 @@ int main(){
         		 }
         	break;
         	case 7:
+        		respuesta = 0;
         		retorno = controller_sortPassenger(listaPasajeros);
         		if(retorno == -2){
         			printf("Debe ingresar al menos un pasajero para ordenar la lista.\n");
@@ -95,22 +101,22 @@ int main(){
         		}
         	break;
         	case 8:
+        		respuesta = 0;
         		if(!controller_saveAsText(ARCHIVO_TXT,listaPasajeros)){
-        			// no ha abrirerto ningun archivo, si realiza esta ccion perdera todos los datos anteriormente guardados
-        			//1 sobreescribir 2 abrir y gaurdar al final 3 volver al menu principal
         			printf("Archivo guardado correctamente.\n");
         			flagGuardado=1;
         		}
         	break;
         	case 9:
+        		respuesta = 0;
         		if(!controller_saveAsBinary(ARCHIVO_BIN,listaPasajeros)){
         			printf("Archivo guardado correctamente.\n");
         			flagGuardado=1;
         		}
         	break;
         	case 10:
-        		if(flagGuardado== 0){
-        			controller_CerrarPrograma(listaPasajeros,&respuesta);
+        		if(flagGuardado== 0 && respuesta == 0){
+        			controller_CerrarPrograma(listaPasajeros, &respuesta, flagArchivo);
         		}
         		else{
         			utn_getInt(&respuesta, "¿Esta seguro que desea salir?\n1)Si.\n2)No.", "Ingrese un numero entre los especificados.\n", 1, 2, 2);
