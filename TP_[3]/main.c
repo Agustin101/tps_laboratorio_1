@@ -5,42 +5,40 @@
 #include "Passenger.h"
 #include "bibliotecaESDeDatos.h"
 
-#define ARCHIVO_BIN "data.bin"
-#define ARCHIVO_TXT "data.csv"
-
 int main(){
 	setbuf(stdout,NULL);
 
     int option = 0;
     LinkedList* listaPasajeros = ll_newLinkedList();
     int flagGuardado=0;
-    int flagArchivoCsv = 0;
-    int flagArchivoBina = 0;
+    int flagArchivo = 0;
     int retorno;
+    int respuesta = 1;
 
     do{
-    	fflush(stdin);
-        if(utn_getInt(&option, "1)Cargar los datos de los pasajeros desde el archivo data.csv (modo texto).\n2)Cargar los datos de los pasajeros desde el archivo data.csv (modo binario).\n3)Alta de pasajero\n4)Modificar datos de pasajero\n5)Baja de pasajero.\n6)Listar pasajeros.\n7)Ordenar pasajeros\n8)Guardar los datos de los pasajeros en el archivo data.csv (modo texto).\n9)Guardar los datos de los pasajeros en el archivo data.csv (modo binario).\n10)Salir.", "Error introduza un numero dentro del rango", 1, 10, 2) == 0){
-        	switch(option){
-            case 1:
-            	if(flagArchivoCsv == 0 && !controller_loadFromText(ARCHIVO_TXT,listaPasajeros)){
+    	option = menuPrincipal();
+        switch(option){
+           case 1:
+            	if(flagArchivo == 0 && !controller_loadFromText(ARCHIVO_TXT,listaPasajeros)){
     				printf("El archivo se pudo leer y cerrar correctamente.\n");
-    				flagArchivoCsv = 1;
+    				flagArchivo = 1;
+    				respuesta = 0;
             	}
-            	else if(flagArchivoCsv == 1){
-            		printf("No puede cargar el mismo archivo dos veces.\n");
+            	else if(flagArchivo == 1){
+            		printf("No puede cargar el archivo de pasajeros dos veces.\n");
             	}
             	else{
             		printf("Error al abrir el archivo.\n");
             	}
             break;
         	case 2:
-        		if(flagArchivoBina == 0 && !controller_loadFromBinary(ARCHIVO_BIN,listaPasajeros)  ){
+        		if(flagArchivo == 0 && !controller_loadFromBinary(ARCHIVO_BIN,listaPasajeros)  ){
     				printf("\nEl archivo se pudo leer y cerrar correctamente.\n");
-    				flagArchivoBina = 1;
+    				flagArchivo = 1;
+    				respuesta = 0;
         		}
-        		else if(flagArchivoBina == 1){
-            		printf("No puede cargar el mismo archivo dos veces.\n");
+        		else if(flagArchivo == 1){
+            		printf("No puede cargar el archivo de pasajeros dos veces.\n");
         		}
         		else{
         			printf("Error al abrir el archivo.\n");
@@ -98,6 +96,8 @@ int main(){
         	break;
         	case 8:
         		if(!controller_saveAsText(ARCHIVO_TXT,listaPasajeros)){
+        			// no ha abrirerto ningun archivo, si realiza esta ccion perdera todos los datos anteriormente guardados
+        			//1 sobreescribir 2 abrir y gaurdar al final 3 volver al menu principal
         			printf("Archivo guardado correctamente.\n");
         			flagGuardado=1;
         		}
@@ -110,12 +110,17 @@ int main(){
         	break;
         	case 10:
         		if(flagGuardado== 0){
-        			printf("No puede salir del programa sin guardar.");
+        			controller_CerrarPrograma(listaPasajeros,&respuesta);
+        		}
+        		else{
+        			utn_getInt(&respuesta, "¿Esta seguro que desea salir?\n1)Si.\n2)No.", "Ingrese un numero entre los especificados.\n", 1, 2, 2);
+        			if(respuesta == 1){
+        				ll_deleteLinkedList(listaPasajeros);
+        			}
         		}
         	break;
         	}
-        }
-    }while(option != 10);
+    }while(respuesta != 1);
     return 0;
 }
 

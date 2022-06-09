@@ -15,7 +15,9 @@ int controller_sortByFlyCode(void* primerElemento, void* segundoElemento);
 int controller_sortByTypePassenger(void* primerElemento, void* segundoElemento);
 int controller_sortByFlightStatus(void* primerElemento, void* segundoElemento);
 
-
+#define ARCHIVO_BIN "data.bin"
+#define ARCHIVO_TXT "data.csv"
+int controller_CerrarPrograma(LinkedList* pArrayListPassenger, int * respuesta);
 
 
 int controller_generarId( LinkedList* pArrayListPassenger);

@@ -21,9 +21,11 @@ int parser_PassengerFromText(FILE* pFile , LinkedList* pArrayListPassenger){
 	char bufferFlyCode[10];
 	char bufferTypePassenger[50];
 	char bufferStatusFlight[50];
+	char ghostHeader[250];
 	int cantidadCampos;
 
 	if(pFile != NULL && pArrayListPassenger != NULL){
+		fscanf(pFile, "%s\n", ghostHeader);
 		while(!feof(pFile)){
 			cantidadCampos = fscanf(pFile, "%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^\n]\n",bufferId,bufferName,bufferLastName,bufferPrice,bufferFlyCode,bufferTypePassenger,bufferStatusFlight);
 			if(cantidadCampos == 7){
@@ -45,7 +47,7 @@ int parser_PassengerFromText(FILE* pFile , LinkedList* pArrayListPassenger){
  *
  * \param path char*
  * \param pArrayListPassenger LinkedList*
- * \return int
+ * \return int -1 si falla 0 si sale bien
  *
  */
 int parser_PassengerFromBinary(FILE* pFile , LinkedList* pArrayListPassenger){
@@ -55,10 +57,10 @@ int parser_PassengerFromBinary(FILE* pFile , LinkedList* pArrayListPassenger){
 	Passenger * pAux = NULL;
 	if(pFile != NULL && pArrayListPassenger != NULL){
 		while(!feof(pFile)){
-			pAux=Passenger_new();
-			if(pAux != NULL){
-				cantidad = fread(pAux, sizeof(Passenger),1,pFile);
-				if(cantidad == 1){
+			cantidad = fread(pAux, sizeof(Passenger),1,pFile);
+			if(cantidad == 1){
+				pAux=Passenger_new();
+				if(pAux != NULL){
 					ll_add(pArrayListPassenger, pAux);
 					retorno = 0;
 				}

@@ -15,10 +15,13 @@ Passenger* Passenger_new(){
 		 Passenger_setCodigoVuelo(pasajeroAux," ");
 		 Passenger_setStatusFlight(pasajeroAux," ");
 	}
+	else{
+		Passenger_delete(pasajeroAux);
+	}
 	return pasajeroAux;
 }
 
-/// @brief
+/// @brief Carga un pasajero con los parametros recibidos.
 ///
 /// @param idStr
 /// @param nombreStr
@@ -27,7 +30,7 @@ Passenger* Passenger_new(){
 /// @param tipoPasajeroStr
 /// @param codigoVueloStr
 /// @param estadoDeVueloStr
-/// @return
+/// @return retorna un puntero a NULL si falla o el puntero del pasajero si lo puede cargar sin errores.
 Passenger* Passenger_newParametros(char* idStr,char* nombreStr,char * apellidoStr, char * precioStr, char* tipoPasajeroStr, char* codigoVueloStr,char*estadoDeVueloStr){
 	Passenger * this = NULL;
 	int idAux;
@@ -73,7 +76,6 @@ int Passenger_setId(Passenger* this,int id){
 	}
 	return retorno;
 }
-
 
 
 /// @brief obtiene el id del campo del pasajero
@@ -218,6 +220,12 @@ int Passenger_tipoPasajero(Passenger * this, char * tipoPasajeroStr){
 	return retorno;
 }
 
+/// @brief Combierte el tipo de pasajaero de entero a char.
+///
+/// @param this
+/// @param tipoPasajeroInt
+/// @param tipoPasajeroStr
+/// @return	-1 si falla 0 si puede convertirlo
 int Passenger_tipoPasajeroTxt(Passenger * this,int tipoPasajeroInt, char * tipoPasajeroStr){
 	int retorno = -1;
 	char bufferAux[50];
@@ -313,4 +321,194 @@ int Passenger_getStatusFlight(Passenger* this,char*estadoDeVueloStr){
 	return retorno;
 }
 
+/// @brief ordena por id
+///
+/// @param primerElemento
+/// @param segundoElemento
+/// @return el resultado de la comparacion de los id
+int Passenger_sortById(void* primerElemento, void* segundoElemento){
+	int retorno = 0;
+	int idPrimerElemento;
+	int idSegundoElemento;
 
+	Passenger * pPrimElem;
+	Passenger * pSegElem;
+
+	if(primerElemento != NULL && segundoElemento != NULL){
+		pPrimElem = (Passenger *) primerElemento;
+		pSegElem = (Passenger *) segundoElemento;
+
+		Passenger_getId(pPrimElem, &idPrimerElemento);
+		Passenger_getId(pSegElem, &idSegundoElemento);
+
+		if(idPrimerElemento > idSegundoElemento){
+			retorno = 1;
+		}
+		else if (idPrimerElemento < idSegundoElemento){
+			retorno = -1;
+		}
+
+	}
+	return retorno;
+}
+
+/// @brief ordena por estado de vuelo
+///
+/// @param primerElemento
+/// @param segundoElemento
+/// @return el resultado de la comparacion del estado de vuelo
+int Passenger_sortByFlightStatus(void* primerElemento, void* segundoElemento){
+	int retorno = -1;
+	char estadoUno[50];
+	char estadoDos[50];
+
+	Passenger * primElem;
+	Passenger * SegElem;
+
+	if(primerElemento != NULL && segundoElemento != NULL){
+		primElem = (Passenger *) primerElemento;
+		SegElem = (Passenger *) segundoElemento;
+
+		Passenger_getStatusFlight(primElem, estadoUno);
+		Passenger_getStatusFlight(SegElem, estadoDos);
+		retorno = strcmp(estadoUno,estadoDos);
+	}
+
+	return retorno;
+}
+
+/// @brief ordena por el tipo de pasajero
+///
+/// @param primerElemento
+/// @param segundoElemento
+/// @return el resultado de la comparacion del tipo de pasajero
+int Passenger_sortByTypePassenger(void* primerElemento, void* segundoElemento){
+	int retorno = 0;
+	int tipoPrimerElemento;
+	int tipoSegundoElemento;
+
+	Passenger * primElem;
+	Passenger * SegElem;
+
+	if(primerElemento != NULL && segundoElemento != NULL){
+		primElem = (Passenger *) primerElemento;
+		SegElem = (Passenger *) segundoElemento;
+		Passenger_getTipoPasajero(primElem, &tipoPrimerElemento);
+		Passenger_getTipoPasajero(SegElem, &tipoSegundoElemento);
+		if(tipoPrimerElemento > tipoSegundoElemento){
+			retorno = 1;
+		}
+		else if (tipoPrimerElemento < tipoSegundoElemento){
+			retorno = -1;
+		}
+	}
+	return retorno;
+}
+
+/// @brief ordena por el codigo de vuelo
+///
+/// @param primerElemento
+/// @param segundoElemento
+/// @return el resultado de la comparacion del codigo de vuelo
+int Passenger_sortByFlyCode(void* primerElemento, void* segundoElemento){
+	int retorno = -1;
+	char codigoUno[50];
+	char codigoDos[50];
+
+	Passenger * primElem;
+	Passenger * SegElem;
+
+	if(primerElemento != NULL && segundoElemento != NULL){
+		primElem = (Passenger *) primerElemento;
+		SegElem = (Passenger *) segundoElemento;
+
+		Passenger_getCodigoVuelo(primElem, codigoUno);
+		Passenger_getCodigoVuelo(SegElem, codigoDos);
+		retorno = strcmp(codigoUno,codigoDos);
+	}
+
+	return retorno;
+}
+
+
+/// @brief ordena por el precio de pasajero
+///
+/// @param primerElemento
+/// @param segundoElemento
+/// @return el resultado de la comparacion del precio del pasajero
+int Passenger_sortByPrice(void* primerElemento, void* segundoElemento){
+	int retorno = 0;
+	float precioPrimerElemento;
+	float precioSegundoElemento;
+
+	Passenger * primElem;
+	Passenger * SegElem;
+
+	if(primerElemento != NULL && segundoElemento != NULL){
+		primElem = (Passenger *) primerElemento;
+		SegElem = (Passenger *) segundoElemento;
+
+		Passenger_getPrecio(primElem, &precioPrimerElemento);
+		Passenger_getPrecio(SegElem, &precioSegundoElemento);
+
+		if(precioPrimerElemento > precioSegundoElemento){
+			retorno = 1;
+		}
+		else if (precioPrimerElemento < precioSegundoElemento){
+			retorno = -1;
+		}
+
+	}
+	return retorno;
+}
+
+/// @brief ordena por el apellido del pasajero
+///
+/// @param primerElemento
+/// @param segundoElemento
+/// @return el resultado de la comparacion del apellido del pasajero
+int Passenger_sortByLastName(void* primerElemento, void* segundoElemento){
+	int retorno = -1;
+	char apellidoUno[50];
+	char apellidoDos[50];
+
+	Passenger * primElem;
+	Passenger * SegElem;
+
+	if(primerElemento != NULL && segundoElemento != NULL){
+		primElem = (Passenger *) primerElemento;
+		SegElem = (Passenger *) segundoElemento;
+
+		Passenger_getApellido(primElem, apellidoUno);
+		Passenger_getApellido(SegElem, apellidoDos);
+		retorno = strcmp(apellidoUno,apellidoDos);
+	}
+
+	return retorno;
+}
+
+/// @brief ordena por el nombre del pasajero
+///
+/// @param primerElemento
+/// @param segundoElemento
+/// @return el resultado de la comparacion del nombre del pasajero
+int Passenger_sortByName(void* primerElemento, void* segundoElemento){
+	int retorno = -1;
+	char nombreUno[50];
+	char nombreDos[50];
+
+	Passenger * primElem;
+	Passenger * SegElem;
+
+	if(primerElemento != NULL && segundoElemento != NULL){
+		primElem = (Passenger *) primerElemento;
+		SegElem = (Passenger *) segundoElemento;
+
+		Passenger_getNombre(primElem, nombreUno);
+		Passenger_getNombre(SegElem, nombreDos);
+
+		retorno = strcmp(nombreUno,nombreDos);
+	}
+
+	return retorno;
+}

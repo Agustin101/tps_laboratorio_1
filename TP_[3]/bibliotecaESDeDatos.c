@@ -5,6 +5,26 @@
  *      Author: Agustin
  */
 #include "bibliotecaESDeDatos.h"
+/// @brief  Genera el menu principal del programa y pide la opcion.
+///
+/// @return -1 si falla, la opcion si sale bien.
+int menuPrincipal(void){
+	int opcion = -1;
+
+    printf("1)Cargar los datos de los pasajeros desde el archivo data.csv (modo texto).\n");
+    printf("2)Cargar los datos de los pasajeros desde el archivo data.csv (modo binario).\n");
+    printf("3)Alta de pasajero.\n");
+    printf("4)Modificar datos de pasajero.\n");
+    printf("5)Baja de pasajero.\n");
+    printf("6)Listar pasajeros.\n");
+    printf("7)Ordenar pasajeros.\n");
+    printf("8)Guardar los datos de los pasajeros en el archivo data.csv (modo texto).\n");
+    printf("9)Guardar los datos de los pasajeros en el archivo data.csv (modo binario).\n");
+    printf("10)Salir.\n");
+	utn_getInt(&opcion, "", "", 1, 10, 2);
+	return opcion;
+}
+
 
 /// @brief Funcion que se utiliza para obtener un numero entero en un rango determinado por la misma.
 ///
@@ -353,7 +373,6 @@ int utn_getString(char string[], int len) {
 
 	return retorno;
 }
-
 
 
 

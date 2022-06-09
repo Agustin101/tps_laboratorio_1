@@ -58,8 +58,13 @@ int Passenger_getCodigoVuelo(Passenger* this,char* codigoVuelo);
 int Passenger_setStatusFlight(Passenger* this,char*estadoDeVueloStr);
 int Passenger_getStatusFlight(Passenger* this,char*estadoDeVueloStr);
 
-
-
+int Passenger_sortById(void* primerElemento, void* segundoElemento);
+int Passenger_sortByFlightStatus(void* primerElemento, void* segundoElemento);
+int Passenger_sortByTypePassenger(void* primerElemento, void* segundoElemento);
+int Passenger_sortByFlyCode(void* primerElemento, void* segundoElemento);
+int Passenger_sortByPrice(void* primerElemento, void* segundoElemento);
+int Passenger_sortByLastName(void* primerElemento, void* segundoElemento);
+int Passenger_sortByName(void* primerElemento, void* segundoElemento);
 
 
 #endif /* PASSENGER_H_ */

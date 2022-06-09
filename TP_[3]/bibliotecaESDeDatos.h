@@ -14,7 +14,7 @@
 #include <string.h>
 #include <ctype.h>
 
-
+int menuPrincipal(void);
 int utn_getInt(int * pResultado, char*pMensaje, char*pMensajeError, int minimo, int maximo, int reintentos);
 int getInt(int* pResultado);
 int esNumerica(char* cadena);

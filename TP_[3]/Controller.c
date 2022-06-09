@@ -3,6 +3,8 @@
 #include "LinkedList.h"
 #include "Passenger.h"
 #include "parser.h"
+#include "bibliotecaESDeDatos.h"
+#include "controller.h"
 
 /** \brief Carga los datos de los pasajeros desde el archivo data.csv (modo texto).
  *
@@ -50,7 +52,7 @@ int controller_loadFromBinary(char* path , LinkedList* pArrayListPassenger){
  *
  * \param path char*
  * \param pArrayListPassenger LinkedList*
- * \return int
+ * \return -1 si falla, 0 si puede dar de alta.
  *
  */
 int controller_addPassenger(LinkedList* pArrayListPassenger){
@@ -93,7 +95,7 @@ int controller_addPassenger(LinkedList* pArrayListPassenger){
  *
  * \param path char*
  * \param pArrayListPassenger LinkedList*
- * \return int
+ * \return retorno -1  si falla 0 si pudo modificar bien.
  *
  */
 int controller_editPassenger(LinkedList* pArrayListPassenger){
@@ -118,7 +120,7 @@ int controller_editPassenger(LinkedList* pArrayListPassenger){
 			for(int i = 0; i < cantidadElementos; i++){
 				pPasajero = (Passenger*)ll_get(pArrayListPassenger, i);
 				Passenger_getId(pPasajero, &idAux);
-				if(idAmodificar == idAux){
+				if(pPasajero != NULL && idAmodificar == idAux){
 					do{
 						if(utn_getInt(&opcion, "Ingrese el campo que desea modificar:\n1)Nombre.\n2)Apellido.\n3)Precio.\n4)Codigo de vuelo.\n5)Tipo de pasajero\n6)Estado de vuelo.\n7)Volver al menu principal.", "Ingrese un numero en el rango.\n", 1, 7, 2)==0){
 							switch(opcion){
@@ -193,7 +195,7 @@ int controller_editPassenger(LinkedList* pArrayListPassenger){
  *
  * \param path char*
  * \param pArrayListPassenger LinkedList*
- * \return int
+ * \return retorna -2  si la lista esta vacia, -1 si no encuentra el id, 0 si pudo dar de baja
  *
  */
 int controller_removePassenger(LinkedList* pArrayListPassenger){
@@ -210,7 +212,7 @@ int controller_removePassenger(LinkedList* pArrayListPassenger){
 			for(int i = 0; i < cantidadElementos; i++){
 				pAux = (Passenger*)ll_get(pArrayListPassenger, i);
 				Passenger_getId(pAux, &idAux);
-				if(idAux == idAEliminar && !ll_remove(pArrayListPassenger,i)){
+				if(pAux != NULL && idAux == idAEliminar && !ll_remove(pArrayListPassenger,i)){
 					Passenger_delete(pAux);
 					retorno = 0;
 					break;
@@ -268,11 +270,11 @@ int controller_ListPassenger(LinkedList* pArrayListPassenger){
     return retorno;
 }
 
-/** \brief Ordenar pasajeros
+/** \brief Ordenar pasajeros bajo el cirterio seleccionado
  *
  * \param path char*
  * \param pArrayListPassenger LinkedList*
- * \return int
+ * \return -2 si no hay pasajeros, -1 si la seleccion sale mal, 0 si pudo ordenar.
  *
  */
 int controller_sortPassenger(LinkedList* pArrayListPassenger){
@@ -288,49 +290,49 @@ int controller_sortPassenger(LinkedList* pArrayListPassenger){
 				case 1:
 					if(!utn_getInt(&order, "Indique el orden para ordenar.\n0)Descendente.\n1)Ascendente.\n", "Indique una opcion valida.", 0, 1, 2)){
 						printf("Ordenando, por favor espere\n");
-						ll_sort(pArrayListPassenger, controller_sortById, order);
+						ll_sort(pArrayListPassenger,Passenger_sortById, order);
 						retorno = 0;
 					}
 					break;
 				case 2:
 					if(!utn_getInt(&order, "Indique el orden para ordenar.\n0)Descendente.\n1)Ascendente.\n", "Indique una opcion valida.", 0, 1, 2)){
 						printf("Ordenando, por favor espere\n");
-						ll_sort(pArrayListPassenger,controller_sortByName, order);
+						ll_sort(pArrayListPassenger,Passenger_sortByName, order);
 						retorno = 0;
 					}
 					break;
 				case 3:
 					if(!utn_getInt(&order, "Indique el orden para ordenar.\n0)Descendente.\n1)Ascendente.\n", "Indique una opcion valida.", 0, 1, 2)){
 						printf("Ordenando, por favor espere\n");
-						ll_sort(pArrayListPassenger,controller_sortByLastName, order);
+						ll_sort(pArrayListPassenger,Passenger_sortByLastName, order);
 						retorno = 0;
 					}
 					break;
 				case 4:
 					if(!utn_getInt(&order, "Indique el orden para ordenar.\n0)Descendente.\n1)Ascendente.\n", "Indique una opcion valida.", 0, 1, 2)){
 						printf("Ordenando, por favor espere\n");
-						ll_sort(pArrayListPassenger,controller_sortByPrice, order);
+						ll_sort(pArrayListPassenger,Passenger_sortByPrice, order);
 						retorno = 0;
 					}
 					break;
 				case 5:
 					if(!utn_getInt(&order, "Indique el orden para ordenar.\n0)Descendente.\n1)Ascendente.\n", "Indique una opcion valida.", 0, 1, 2)){
 						printf("Ordenando, por favor espere\n");
-						ll_sort(pArrayListPassenger,controller_sortByFlyCode, order);
+						ll_sort(pArrayListPassenger,Passenger_sortByFlyCode, order);
 						retorno = 0;
 					}
 					break;
 				case 6:
 					if(!utn_getInt(&order, "Indique el orden para ordenar.\n0)Descendente.\n1)Ascendente.\n", "Indique una opcion valida.", 0, 1, 2)){
 						printf("Ordenando, por favor espere\n");
-						ll_sort(pArrayListPassenger,controller_sortByTypePassenger, order);
+						ll_sort(pArrayListPassenger,Passenger_sortByTypePassenger, order);
 						retorno = 0;
 					}
 					break;
 				case 7:
 					if(!utn_getInt(&order, "Indique el orden para ordenar.\n0)Descendente.\n1)Ascendente.\n", "Indique una opcion valida.", 0, 1, 2)){
 						printf("Ordenando, por favor espere\n");
-						ll_sort(pArrayListPassenger,controller_sortByFlightStatus, order);
+						ll_sort(pArrayListPassenger,Passenger_sortByFlightStatus, order);
 						retorno = 0;
 					}
 					break;
@@ -345,171 +347,6 @@ int controller_sortPassenger(LinkedList* pArrayListPassenger){
     return retorno;
 }
 
-int controller_sortById(void* primerElemento, void* segundoElemento){
-	int retorno = 0;
-	int idPrimerElemento;
-	int idSegundoElemento;
-
-	Passenger * primElem;
-	Passenger * SegElem;
-
-	if(primerElemento != NULL && segundoElemento != NULL){
-		primElem = (Passenger *) primerElemento;
-		SegElem = (Passenger *) segundoElemento;
-
-		Passenger_getId(primElem, &idPrimerElemento);
-		Passenger_getId(SegElem, &idSegundoElemento);
-
-		if(idPrimerElemento > idSegundoElemento){
-			retorno = 1;
-		}
-		else if (idPrimerElemento < idSegundoElemento){
-			retorno = -1;
-		}
-
-	}
-	return retorno;
-}
-
-int controller_sortByName(void* primerElemento, void* segundoElemento){
-	int retorno = -1;
-	char nombreUno[50];
-	char nombreDos[50];
-
-	Passenger * primElem;
-	Passenger * SegElem;
-
-	if(primerElemento != NULL && segundoElemento != NULL){
-		primElem = (Passenger *) primerElemento;
-		SegElem = (Passenger *) segundoElemento;
-
-		Passenger_getNombre(primElem, nombreUno);
-		Passenger_getNombre(SegElem, nombreDos);
-
-		retorno = strcmp(nombreUno,nombreDos);
-
-	}
-
-	return retorno;
-}
-
-
-int controller_sortByLastName(void* primerElemento, void* segundoElemento){
-	int retorno = -1;
-	char apellidoUno[50];
-	char apellidoDos[50];
-
-	Passenger * primElem;
-	Passenger * SegElem;
-
-	if(primerElemento != NULL && segundoElemento != NULL){
-		primElem = (Passenger *) primerElemento;
-		SegElem = (Passenger *) segundoElemento;
-
-		Passenger_getNombre(primElem, apellidoUno);
-		Passenger_getNombre(SegElem, apellidoDos);
-
-		retorno = strcmp(apellidoUno,apellidoDos);
-
-	}
-
-	return retorno;
-}
-
-
-int controller_sortByPrice(void* primerElemento, void* segundoElemento){
-	int retorno = 0;
-	float precioPrimerElemento;
-	float precioSegundoElemento;
-
-	Passenger * primElem;
-	Passenger * SegElem;
-
-	if(primerElemento != NULL && segundoElemento != NULL){
-		primElem = (Passenger *) primerElemento;
-		SegElem = (Passenger *) segundoElemento;
-
-		Passenger_getPrecio(primElem, &precioPrimerElemento);
-		Passenger_getPrecio(SegElem, &precioSegundoElemento);
-
-		if(precioPrimerElemento > precioSegundoElemento){
-			retorno = 1;
-		}
-		else if (precioPrimerElemento < precioSegundoElemento){
-			retorno = -1;
-		}
-
-	}
-	return retorno;
-}
-
-
-int controller_sortByFlyCode(void* primerElemento, void* segundoElemento){
-	int retorno = -1;
-	char codigoUno[50];
-	char codigoDos[50];
-
-	Passenger * primElem;
-	Passenger * SegElem;
-
-	if(primerElemento != NULL && segundoElemento != NULL){
-		primElem = (Passenger *) primerElemento;
-		SegElem = (Passenger *) segundoElemento;
-
-		Passenger_getCodigoVuelo(primElem, codigoUno);
-		Passenger_getCodigoVuelo(SegElem, codigoDos);
-
-		retorno = strcmp(codigoUno,codigoDos);
-
-	}
-
-	return retorno;
-}
-
-int controller_sortByTypePassenger(void* primerElemento, void* segundoElemento){
-	int retorno = 0;
-	int tipoPrimerElemento;
-	int tipoSegundoElemento;
-
-	Passenger * primElem;
-	Passenger * SegElem;
-
-	if(primerElemento != NULL && segundoElemento != NULL){
-		primElem = (Passenger *) primerElemento;
-		SegElem = (Passenger *) segundoElemento;
-		Passenger_getTipoPasajero(primElem, &tipoPrimerElemento);
-		Passenger_getTipoPasajero(SegElem, &tipoSegundoElemento);
-		if(tipoPrimerElemento > tipoSegundoElemento){
-			retorno = 1;
-		}
-		else if (tipoPrimerElemento < tipoSegundoElemento){
-			retorno = -1;
-		}
-	}
-	return retorno;
-
-
-}
-
-int controller_sortByFlightStatus(void* primerElemento, void* segundoElemento){
-	int retorno = -1;
-	char estadoUno[50];
-	char estadoDos[50];
-
-	Passenger * primElem;
-	Passenger * SegElem;
-
-	if(primerElemento != NULL && segundoElemento != NULL){
-		primElem = (Passenger *) primerElemento;
-		SegElem = (Passenger *) segundoElemento;
-
-		Passenger_getStatusFlight(primElem, estadoUno);
-		Passenger_getStatusFlight(SegElem, estadoDos);
-		retorno = strcmp(estadoUno,estadoDos);
-	}
-
-	return retorno;
-}
 
 /** \brief Guarda los datos de los pasajeros en el archivo data.csv (modo texto).
  *
@@ -531,11 +368,10 @@ int controller_saveAsText(char* path , LinkedList* pArrayListPassenger){
 	int bufferTypePassenger;
 	char bufferStatusFlight[50];
 	char bufferTypePassengerStr[50];
-
-
 	pFile = fopen(path, "w");
 
 	if(path != NULL && pArrayListPassenger != NULL && pFile != NULL){
+		fprintf(pFile,"id,name,lastname,price,flycode,typePassenger,statusFlight\n");
 			cantidadElementos = ll_len(pArrayListPassenger);
 			for(int i = 0; i < cantidadElementos; i++){
 				pPasajero = (Passenger*)ll_get(pArrayListPassenger, i);
@@ -598,7 +434,39 @@ int controller_generarId( LinkedList* pArrayListPassenger){
 	return id;
 }
 
+int controller_CerrarPrograma(LinkedList* pArrayListPassenger, int * respuesta){
+    int flagGuardado=0;
+    int respuestaAux;
+    int retorno = -1;
 
+	if(flagGuardado== 0 && !utn_getInt(&respuestaAux, "No puede salir del programa sin guardar el archivo, ¿Que desea hacer? \n1)Guardar\n2)Volver al menu principal", "Error ingrese una opcion valida. \n", 1, 2, 2)){
+		if(respuestaAux == 1 && !utn_getInt(&respuestaAux, "1)Guardar csv\n2)Guardar binario", "Indique una opcion valida.\n", 1, 2, 2)){
+			switch(respuestaAux){
+			case 1:
+        		if(!controller_loadFromText(ARCHIVO_TXT,pArrayListPassenger) && !controller_saveAsText(ARCHIVO_TXT,pArrayListPassenger)){
+        			printf("Archivo guardado correctamente.\nPrograma finalizado.\n");
+        			ll_deleteLinkedList(pArrayListPassenger);
+        			flagGuardado=1;
+        			respuestaAux = 1;
+        			retorno = 0;
+        			*respuesta = respuestaAux;
+        		}
+        		break;
+			case 2:
+        		if(!controller_loadFromBinary(ARCHIVO_BIN, pArrayListPassenger) && !controller_saveAsBinary(ARCHIVO_BIN,pArrayListPassenger)){
+        			ll_deleteLinkedList(pArrayListPassenger);
+        			printf("Archivo guardado correctamente.\nPrograma finalizado.\n");
+        			flagGuardado=1;
+        			respuestaAux = 1;
+        			retorno = 0;
+        			*respuesta = respuestaAux;
+        		}
+				break;
+			}
+		}
+	}
+	return retorno;
+}
 
 
 
