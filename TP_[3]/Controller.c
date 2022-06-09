@@ -10,15 +10,15 @@
  *
  * \param path char*
  * \param pArrayListPassenger LinkedList*
- * \return int
+ * \return int retorna -1 si falla y 0 si funciona
  *
  */
 int controller_loadFromText(char* path , LinkedList* pArrayListPassenger){
 	FILE* pFile = NULL;
 	int retorno = -1;
-	pFile = fopen(path, "r");
 
 	if(path != NULL && pArrayListPassenger != NULL){
+		pFile = fopen(path, "r");
 		if(pFile != NULL && !parser_PassengerFromText(pFile, pArrayListPassenger)){
 				retorno = 0;
 		}
@@ -31,16 +31,16 @@ int controller_loadFromText(char* path , LinkedList* pArrayListPassenger){
  *
  * \param path char*
  * \param pArrayListPassenger LinkedList*
- * \return int
+ * \return int reotrna -1 si falla y 0 si sale bien.
  *
  */
 int controller_loadFromBinary(char* path , LinkedList* pArrayListPassenger){
 	FILE* pFile = NULL;
 	int retorno = -1;
-	pFile = fopen(path, "rb");
+
 	if(path != NULL && pArrayListPassenger != NULL){
+		pFile = fopen(path, "rb");
 		if(pFile != NULL && !parser_PassengerFromBinary(pFile, pArrayListPassenger)){
-			printf("entre al if");
 				retorno = 0;
 		}
 	}
@@ -64,10 +64,10 @@ int controller_addPassenger(LinkedList* pArrayListPassenger){
 	char bufferFlyCode[10];
 	int bufferTypePassenger;
 	char bufferStatusFlight[50];
-
 	FILE * pFile = NULL;
-	pFile = fopen(ARCHIVO_IDS, "r");
 	Passenger * pPasajero = NULL;
+
+	pFile = fopen(ARCHIVO_IDS, "r");
 
    if(pArrayListPassenger != NULL && pFile != NULL){
 	   if(getString(bufferName, "Ingrese el nombre del pasajero:\n", "Error, pruebe con un caracter valido\n", 2)== 0 && getString(bufferLastName, "Ingrese el apellido del pasajero:\n", "Error, pruebe con un caracter valido\n", 2)== 0 &&
@@ -96,11 +96,11 @@ int controller_addPassenger(LinkedList* pArrayListPassenger){
    return retorno;
 }
 
-/** \brief Modificar datos de pasajero
+/** \brief Modificar datos de pasajero elegidos por el usuario
  *
  * \param path char*
  * \param pArrayListPassenger LinkedList*
- * \return retorno -1  si falla 0 si pudo modificar bien.
+ * \return retorna -2  si la lista esta vacia, -1 si no encuentra el id, 0 si pudo modificar
  *
  */
 int controller_editPassenger(LinkedList* pArrayListPassenger){
@@ -186,9 +186,11 @@ int controller_editPassenger(LinkedList* pArrayListPassenger){
 						}
 					}while(opcion != 7);
 				}
+				else{
+					retorno = -1;
+				}
 			}
 		}
-		retorno = -1;
 	}else{
 		retorno = -2;
 	}
@@ -208,8 +210,8 @@ int controller_removePassenger(LinkedList* pArrayListPassenger){
 	int idAEliminar;
 	int idAux;
 	int cantidadElementos;
+	Passenger * pAux = NULL;
 
-	Passenger * pAux;
 	if(pArrayListPassenger != NULL && !ll_isEmpty(pArrayListPassenger)){
 		controller_ListPassenger(pArrayListPassenger);
 		if(utn_getInt(&idAEliminar, "Ingrese el id del pasajero a eliminar: \n", "Ingrese un id valido", 1, 10000, 2) == 0){
@@ -274,7 +276,7 @@ int controller_ListPassenger(LinkedList* pArrayListPassenger){
     return retorno;
 }
 
-/** \brief Ordenar pasajeros bajo el cirterio seleccionado
+/** \brief Ordenar pasajeros bajo el criterio seleccionado
  *
  * \param path char*
  * \param pArrayListPassenger LinkedList*
@@ -346,8 +348,6 @@ int controller_sortPassenger(LinkedList* pArrayListPassenger){
 			}
 			}while(opcion!=8);
 	}
-
-
     return retorno;
 }
 
@@ -355,7 +355,7 @@ int controller_sortPassenger(LinkedList* pArrayListPassenger){
  *
  * \param path char*
  * \param pArrayListPassenger LinkedList*
- * \return int
+ * \return int retorna -1 si falla y 0 si sale bien.
  *
  */
 int controller_saveAsText(char* path , LinkedList* pArrayListPassenger){
@@ -394,7 +394,7 @@ int controller_saveAsText(char* path , LinkedList* pArrayListPassenger){
  *
  * \param path char*
  * \param pArrayListPassenger LinkedList*
- * \return int
+ * \return int retorna  -1 si falla y 0 si sale bien
  *
  */
 int controller_saveAsBinary(char* path , LinkedList* pArrayListPassenger){
@@ -418,11 +418,11 @@ int controller_saveAsBinary(char* path , LinkedList* pArrayListPassenger){
 	return retorno;
 }
 
-/// @brief Si el usuario intenta salir sin gaurdar se le da la opcion de gaurdar los cambios hechos al final del archivo que elija
+/// @brief Si el usuario intenta salir sin guardar se le da la opcion de gaurdar los cambios hechos en el archivo que elija
 ///
 /// @param pArrayListPassenger
 /// @param respuesta
-/// @return
+/// @return -1 si falla y 0 si sale bien.
 int controller_CerrarPrograma(LinkedList* pArrayListPassenger, int * respuesta, int estadoArchivo){
     int respuestaAux;
     int respuestaGuardado;
@@ -507,7 +507,11 @@ int controller_CerrarPrograma(LinkedList* pArrayListPassenger, int * respuesta, 
 }
 
 
-
+/// @brief Gaurda el ultimo id asignado en el archivo csv
+///
+/// @param path
+/// @param ultimoId
+/// @return -1 si falla 0 si sale bien
 int controller_saveIdAsText(char *path, int ultimoId) {
 	FILE *pFile = NULL;
 	int retorno = -1;

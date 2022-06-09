@@ -7,7 +7,6 @@
 
 int main(){
 	setbuf(stdout,NULL);
-
     int option = 0;
     int flagGuardado=0;
     int flagArchivo = 0;

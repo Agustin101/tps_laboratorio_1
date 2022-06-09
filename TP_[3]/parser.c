@@ -66,8 +66,8 @@ int parser_PassengerFromBinary(FILE* pFile , LinkedList* pArrayListPassenger){
 		while(!feof(pFile)){
 			pAux=Passenger_new();
 			cantidad = fread(pAux, sizeof(Passenger),1,pFile);
-			if(cantidad == 1){
-				if(pAux != NULL && !Passenger_getApellido(pAux, lastName) && !Passenger_getId(pAux, &id)
+			if(pAux != NULL && cantidad == 1){
+				if(!Passenger_getApellido(pAux, lastName) && !Passenger_getId(pAux, &id)
 						&& !Passenger_getNombre(pAux, name) && !Passenger_getPrecio(pAux, &price)
 						&& !Passenger_getTipoPasajero(pAux, &typePassenger) && !Passenger_getCodigoVuelo(pAux, flyCode)
 						&& !Passenger_getStatusFlight(pAux, flightStatus)){
@@ -82,9 +82,6 @@ int parser_PassengerFromBinary(FILE* pFile , LinkedList* pArrayListPassenger){
 	}
     return retorno;
 }
-
-
-
 
 ///** \brief Obtiene el ultimo id asignado desde el archivo data.csv (modo texto).
 ///
@@ -109,32 +106,7 @@ int parser_idsFromText(FILE* pFile){
     return retorno;
 }
 
-int parser_idFromBinary(FILE* pFile , LinkedList* pArrayListPassenger, int * ultimoId){
-	int retorno = -1;
-	int cantidad;
-	int idAnterior;
-	int maximoId;
-	int flag = 0;
 
-	Passenger * pAux = NULL;
-
-	if(pFile != NULL && pArrayListPassenger != NULL){
-		while(!feof(pFile)){
-				pAux=Passenger_new();
-				cantidad = fread(pAux, sizeof(Passenger),1,pFile);
-				if(cantidad == 1){
-					Passenger_getId(pAux, &idAnterior);
-					if(flag == 0 || idAnterior > maximoId){
-						maximoId = idAnterior;
-						flag = 1;
-					}
-				}
-		}
-		retorno = 0;
-		*ultimoId = maximoId;
-	}
-    return retorno;
-}
 
 
 
