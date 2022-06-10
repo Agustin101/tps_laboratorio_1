@@ -512,3 +512,54 @@ int Passenger_sortByName(void* primerElemento, void* segundoElemento){
 
 	return retorno;
 }
+
+/// @brief Busca una id en la lista de pasajeros
+///
+/// @param pArrayListPassenger
+/// @param idBuscado
+/// @return -1 si falla o 0 si sale bien
+int findPassengerById(LinkedList* pArrayListPassenger, int idBuscado, int * indice) {
+	int retorno;
+	retorno = -1;
+	int cantidadElementos;
+	int idAux;
+	Passenger * pAux = NULL;
+
+	if (pArrayListPassenger != NULL && idBuscado > 0 && indice != NULL) {
+		cantidadElementos = ll_len(pArrayListPassenger);
+		for (int i = 0; i < cantidadElementos; i++) {
+			pAux = (Passenger *)ll_get(pArrayListPassenger, i);
+			Passenger_getId(pAux, &idAux);
+			if ( pAux != NULL && idAux == idBuscado ) {
+				*indice = i;
+				 retorno = 0;
+				break;
+			}
+		}
+	}
+	return retorno;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

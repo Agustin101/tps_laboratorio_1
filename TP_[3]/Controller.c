@@ -71,13 +71,13 @@ int controller_addPassenger(LinkedList* pArrayListPassenger){
 
    if(pArrayListPassenger != NULL && pFile != NULL){
 	   if(getString(bufferName, "Ingrese el nombre del pasajero:\n", "Error, pruebe con un caracter valido\n", 2)== 0 && getString(bufferLastName, "Ingrese el apellido del pasajero:\n", "Error, pruebe con un caracter valido\n", 2)== 0 &&
-			utnGetFloat(&bufferPrice, "Ingrese el precio del viaje", "Error ingrese un numero valido", 0, 10000000, 2) == 0 && utn_getFlyCode(bufferFlyCode, "Ingrese el codigo de vuelo:\n", "Error solo caracteres alfanumericos", 2) == 0 &&
-			utn_getInt(&bufferTypePassenger, "Ingrese el tipo de pasajero: \n1)FIRSTCLASS\n2)EXECUTIVECLASS\n3)ECONOMYCLASS\n", "Error ingrese una opcion valida.", 1, 3, 2) == 0 &&
-			getString(bufferStatusFlight, "Ingrese el estado del vuelo:\n", "Error, pruebe con un caracter valido\n", 2)== 0){
-		   pPasajero = Passenger_new();
-		   bufferId = parser_idsFromText(pFile);
-		   bufferId++;
-		   if(pPasajero != NULL && bufferId > 0){
+		  utnGetFloat(&bufferPrice, "Ingrese el precio del viaje", "Error ingrese un numero valido", 0, 10000000, 2) == 0 && utn_getFlyCode(bufferFlyCode, "Ingrese el codigo de vuelo:\n", "Error solo caracteres alfanumericos", 2) == 0 &&
+		  utn_getInt(&bufferTypePassenger, "Ingrese el tipo de pasajero: \n1)FIRSTCLASS\n2)EXECUTIVECLASS\n3)ECONOMYCLASS\n", "Error ingrese una opcion valida.", 1, 3, 2) == 0 &&
+		  getString(bufferStatusFlight, "Ingrese el estado del vuelo:\n", "Error, pruebe con un caracter valido\n", 2)== 0){
+		  pPasajero = Passenger_new();
+		  bufferId = parser_idsFromText(pFile);
+		  bufferId++;
+		  if(pPasajero != NULL && bufferId > 0){
 				if(Passenger_setId(pPasajero, bufferId) == -1 || Passenger_setPrecio(pPasajero, bufferPrice) == -1 || Passenger_setTipoPasajero(pPasajero, bufferTypePassenger)	== -1 ||
 					Passenger_setNombre(pPasajero, bufferName) == -1 || Passenger_setApellido(pPasajero, bufferLastName) == -1 || Passenger_setCodigoVuelo(pPasajero, bufferFlyCode) ||
 					Passenger_setStatusFlight(pPasajero, bufferStatusFlight)==-1){
@@ -89,6 +89,9 @@ int controller_addPassenger(LinkedList* pArrayListPassenger){
 					retorno = 0;
 					controller_saveIdAsText(ARCHIVO_IDS, bufferId);
 				}
+		   }else{
+				Passenger_delete(pPasajero);
+				pPasajero=NULL;
 		   }
 	   }
    }
@@ -107,8 +110,6 @@ int controller_editPassenger(LinkedList* pArrayListPassenger){
 	int retorno = -1;
 	int opcion;
 	int idAmodificar;
-	int idAux;
-	int cantidadElementos;
 	Passenger * pPasajero = NULL;
 	char nombreAux[50];
 	char apellidoAux[50];
@@ -116,16 +117,13 @@ int controller_editPassenger(LinkedList* pArrayListPassenger){
 	char codigoDeVueloAux[8];
 	int tipoPasajeroAux;
 	char estadoDeVueloAux[50];
-
+	int indiceRetornado;
 
 	if(pArrayListPassenger != NULL && !ll_isEmpty(pArrayListPassenger)){
 		controller_ListPassenger(pArrayListPassenger);
-		if(!utn_getInt(&idAmodificar, "Ingrese el id del pasajero que desea modificar:\n", "Ingrese un numero en el rango.\n", 1, 10000, 2)){
-			cantidadElementos = ll_len(pArrayListPassenger);
-			for(int i = 0; i < cantidadElementos; i++){
-				pPasajero = (Passenger*)ll_get(pArrayListPassenger, i);
-				Passenger_getId(pPasajero, &idAux);
-				if(pPasajero != NULL && idAmodificar == idAux){
+		if(!utn_getInt(&idAmodificar, "Ingrese el id del pasajero que desea modificar:\n", "Ingrese un numero en el rango.\n", 1, 10000, 2) && !findPassengerById(pArrayListPassenger, idAmodificar, &indiceRetornado)){
+				pPasajero = (Passenger*)ll_get(pArrayListPassenger, indiceRetornado);
+				if(pPasajero != NULL){
 					do{
 						if(utn_getInt(&opcion, "Ingrese el campo que desea modificar:\n1)Nombre.\n2)Apellido.\n3)Precio.\n4)Codigo de vuelo.\n5)Tipo de pasajero\n6)Estado de vuelo.\n7)Volver al menu principal.", "Ingrese un numero en el rango.\n", 1, 7, 2)==0){
 							switch(opcion){
@@ -189,7 +187,6 @@ int controller_editPassenger(LinkedList* pArrayListPassenger){
 				else{
 					retorno = -1;
 				}
-			}
 		}
 	}else{
 		retorno = -2;
@@ -209,25 +206,21 @@ int controller_removePassenger(LinkedList* pArrayListPassenger){
 	int retorno = -2;
 	int idAEliminar;
 	int idAux;
-	int cantidadElementos;
+	int indiceRetornado;
 	Passenger * pAux = NULL;
 
 	if(pArrayListPassenger != NULL && !ll_isEmpty(pArrayListPassenger)){
 		controller_ListPassenger(pArrayListPassenger);
-		if(utn_getInt(&idAEliminar, "Ingrese el id del pasajero a eliminar: \n", "Ingrese un id valido", 1, 10000, 2) == 0){
-			cantidadElementos = ll_len(pArrayListPassenger);
-			for(int i = 0; i < cantidadElementos; i++){
-				pAux = (Passenger*)ll_get(pArrayListPassenger, i);
-				Passenger_getId(pAux, &idAux);
-				if(pAux != NULL && idAux == idAEliminar && !ll_remove(pArrayListPassenger,i)){
-					Passenger_delete(pAux);
-					retorno = 0;
-					break;
-				}
-				else{
-					retorno = -1;
-				}
+		if(utn_getInt(&idAEliminar, "Ingrese el id del pasajero a eliminar: \n", "Ingrese un id valido", 1, 10000, 2) == 0 && !findPassengerById(pArrayListPassenger, idAEliminar, &indiceRetornado)){
+			pAux = (Passenger*)ll_get(pArrayListPassenger, indiceRetornado);
+			Passenger_getId(pAux, &idAux);
+			if(pAux != NULL && !ll_remove(pArrayListPassenger,indiceRetornado)){
+				Passenger_delete(pAux);
+				retorno = 0;
 			}
+		}
+		else{
+			retorno = -1;
 		}
 	}
 
@@ -256,15 +249,10 @@ int controller_ListPassenger(LinkedList* pArrayListPassenger){
 		cantidadElementos = ll_len(pArrayListPassenger);
 		for(int i =0; i < cantidadElementos; i++){
 			pPasajero = (Passenger*) ll_get(pArrayListPassenger, i);
-			if(pPasajero != NULL){
-				Passenger_getId(pPasajero, &bufferId);
-				Passenger_getNombre(pPasajero, bufferName);
-				Passenger_getApellido(pPasajero, bufferLastName);
-				Passenger_getPrecio(pPasajero, &bufferPrice);
-				Passenger_getCodigoVuelo(pPasajero, bufferFlyCode);
-				Passenger_getTipoPasajero(pPasajero, &bufferTypePassenger);
-				Passenger_tipoPasajeroTxt(pPasajero,bufferTypePassenger, bufferTypePassengerStr);
-				Passenger_getStatusFlight(pPasajero, bufferStatusFlight);
+			if(pPasajero != NULL && !Passenger_getApellido(pPasajero, bufferLastName) && !Passenger_getId(pPasajero, &bufferId)
+					&& !Passenger_getNombre(pPasajero, bufferName) && !Passenger_getPrecio(pPasajero, &bufferPrice)
+					&& !Passenger_getTipoPasajero(pPasajero, &bufferTypePassenger) && !Passenger_getCodigoVuelo(pPasajero, bufferFlyCode)
+					&& !Passenger_getStatusFlight(pPasajero, bufferStatusFlight) && !Passenger_tipoPasajeroTxt(pPasajero,bufferTypePassenger, bufferTypePassengerStr)){
 				printf("%-4d %-15s %-15s $%-9.2f %-7s %-15s %-15s\n",bufferId,bufferName, bufferLastName,bufferPrice,bufferFlyCode,bufferTypePassengerStr,bufferStatusFlight);
 				retorno = 0;
 			}
@@ -505,7 +493,6 @@ int controller_CerrarPrograma(LinkedList* pArrayListPassenger, int * respuesta, 
     }
 	return retorno;
 }
-
 
 /// @brief Gaurda el ultimo id asignado en el archivo csv
 ///

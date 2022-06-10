@@ -10,6 +10,9 @@
 /// @return -1 si falla, la opcion si sale bien.
 int menuPrincipal(void){
 	int opcion = -1;
+	int reintentos = 2;
+
+	do{
 
     printf("1)Cargar los datos de los pasajeros desde el archivo data.csv (modo texto).\n");
     printf("2)Cargar los datos de los pasajeros desde el archivo data.csv (modo binario).\n");
@@ -21,7 +24,9 @@ int menuPrincipal(void){
     printf("8)Guardar los datos de los pasajeros en el archivo data.csv (modo texto).\n");
     printf("9)Guardar los datos de los pasajeros en el archivo data.csv (modo binario).\n");
     printf("10)Salir.\n");
-	utn_getInt(&opcion, "", "", 1, 10, 2);
+	utn_getInt(&opcion, "", "Error ingrese una opcion valida.", 1, 10, 2);
+    reintentos--;
+	}while(reintentos >=0);
 	return opcion;
 }
 

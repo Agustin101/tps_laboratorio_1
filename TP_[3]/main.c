@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include "LinkedList.h"
 #include "Controller.h"
-#include "Passenger.h"
 #include "bibliotecaESDeDatos.h"
 
 int main(){
@@ -14,9 +13,8 @@ int main(){
     int respuesta = 1;
 
     LinkedList* listaPasajeros = ll_newLinkedList();
-
     do{
-    	option = menuPrincipal();
+    	if(!utn_getInt(&option, "1)Cargar los datos de los pasajeros desde el archivo data.csv (modo texto).\n2)Cargar los datos de los pasajeros desde el archivo data.csv (modo binario).\n3)Alta de pasajero.\n4)Modificar datos de pasajero.\n5)Baja de pasajero.\n6)Listar pasajeros.\n7)Ordenar pasajeros.\n8)Guardar los datos de los pasajeros en el archivo data.csv (modo texto).\n9)Guardar los datos de los pasajeros en el archivo data.csv (modo binario).\n10)Salir.\n", "Error ingrese una opcion valida.\n", 1, 10, 3)){
         switch(option){
            case 1:
         	   respuesta = 0;
@@ -67,13 +65,13 @@ int main(){
         		respuesta = 0;
         		retorno = controller_removePassenger(listaPasajeros);
         		if(retorno == 0){
-					printf("Pasajero eliminado del sistema con exito.");
+					printf("Pasajero eliminado del sistema con exito.\n");
         		}
         		else if(retorno == -1){
     				printf("El id no coincide con ningun pasajero.\n");
         		}
         		else{
-        			 printf("Debe tener al menos un pasajero en la lista para poder eliminar");
+        			 printf("Debe tener al menos un pasajero en la lista para poder eliminar.\n");
         		 }
         	break;
         	case 6:
@@ -125,6 +123,7 @@ int main(){
         		}
         	break;
         	}
+    	}
     }while(respuesta != 1);
     return 0;
 }
