@@ -6,8 +6,8 @@
 
 int main(void){
 	setbuf(stdout, NULL);
-	int kmsDelViaje;
-	int respuesta;
+	float kmsDelViaje;
+
 	int opcion;
 	int opcionMenuAerolineas;
 	int respuestaMenuAerolineas;
@@ -29,25 +29,20 @@ int main(void){
 	costoDelViajeLatam = 0;
 
 	do{
-		printf("1 Ingresar Kilómetros: ( km = %i)\n2 Ingresar Precio de Vuelos: (Aerolíneas=%.2f, Latam=%.2f)\n3 Calcular todos los costos\na) Tarjeta de débito (descuento 10%%)\nb) Tarjeta de crédito (interés 25%%)\nc) Bitcoin (1BTC -> 4606954.55 Pesos Argentinos)\nd) Mostrar precio por km (precio unitario)\ne) Mostrar diferencia de precio ingresada (Latam - Aerolíneas)\n4 Informar Resultados\n5 Carga forzada de datos\n6 Salir\n",kmsDelViaje,costoDelViajeAerolineas,costoDelViajeLatam);
-		fflush(stdin);
-		validacionRetorno = utn_getNumero(&opcion,"Seleccione una opcion", "Ingrese una opcion valida\n",1,6,1);
+		printf("1 Ingresar Kilometros: ( km = %.2f)\n2 Ingresar Precio de Vuelos: (Aerolineas=%.2f, Latam=%.2f)\n3 Calcular todos los costos\na) Tarjeta de debito (descuento 10%%)\nb) Tarjeta de credito (interes 25%%)\nc) Bitcoin (1BTC -> 4606954.55 Pesos Argentinos)\nd) Mostrar precio por km (precio unitario)\ne) Mostrar diferencia de precio ingresada (Latam - Aerolineas)\n4 Informar Resultados\n5 Carga forzada de datos\n6 Salir\n",kmsDelViaje,costoDelViajeAerolineas,costoDelViajeLatam);
+		validacionRetorno = utn_getNumero(&opcion,"Seleccione una opcion:\n", "Ingrese una opcion valida\n",1,6,1);
 		if(validacionRetorno == 0){
 		switch(opcion){
 		case 1:
-			do{
-				respuesta = pedirKilometros(&kmsDelViaje);
-				if(respuesta == 0){
-					break;
+				if(!utnGetFloat(&kmsDelViaje, "Ingrese los kilometros del viaje:\n", "Error ingrese un valor numerico mayor a 0.\n", 0, 150000, 2)){
+					printf("Kilometros ingresados con exito.\n");
 				}
 				else{
-					printf("El valor ingresado no es valido.(Debe ser un numero y mayor a 0)\n");
+					printf("La toma de datos de los kilometros fallo.\n");
 				}
-			}while(respuesta !=0);
-				break;
+			break;
 		case 2:
 			do{
-				fflush(stdin);
 			respuestaMenuAerolineas = utn_getNumero(&opcionMenuAerolineas,"Seleccione una opcion\n1 Ingresar precio Aerolineas\n2 Ingresar precio latam\n3 Volver a menu principal", "Ingrese una opcion valida\n",1,3,1);
 			if(respuestaMenuAerolineas == 0){
 				switch(opcionMenuAerolineas){
@@ -92,8 +87,6 @@ int main(void){
 			}
 			printf("Presione enter para continuar...");
 			fflush(stdin);
-
-
 			break;
 		case 5:
 			kmsDelViaje = 7090;

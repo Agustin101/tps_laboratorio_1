@@ -11,6 +11,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
+#include <string.h>
 
 /// @brief Funcion que se utiliza para obtener un numero en un rango determinado por la misma.
 ///
@@ -67,4 +69,9 @@ int pedirCosto(float * pCosto, char*pMensajeDeError, int reintentos);
 /// el retorno es -1.
 int mostrarResultados(int kmsIngresados, float precioAerolineas, float precioAerolineasDebito, float precioAerolineasCredito, float precioAerolineasBitcoin, float precioUnitarioAerolineas,
 		float precioLatam, float precioLatamDebito, float precioLatamCredito, float precioLatamBitcoin, float precioUnitarioLatam, float diferenciaDePrecio);
+int esNumericaDecimal(char* cadena);
+int getFloat(float* pResultado);
+int utnGetFloat(float * pResultado, char*pMensaje, char*pMensajeError, int minimo, int maximo, int reintentos);
+int myGets(char* cadena, int longitud);
+
 #endif /* BIBLIOTECAESDEDATOS_H_ */
