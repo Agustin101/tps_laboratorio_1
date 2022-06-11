@@ -337,54 +337,51 @@ int esCodigo(char* cadena)
 	return ret;
 }
 
-char utn_getChar (char mensaje[]) {
 
-	char caracterIngresado;
-
-
-	printf("%s", mensaje);
-
-	while (utn_getString(&caracterIngresado, sizeof(caracterIngresado)) == -1 || !isalpha(caracterIngresado)) {
-		printf("ERROR! %s", mensaje);
-	}
-
-	return caracterIngresado;
-}
-
-int utn_getString(char string[], int len) {
-
-	int retorno;
-	int longitud;
- 	char cadenaAux[50];
-
- 	retorno = -1;
- 	longitud = sizeof(cadenaAux);
-
-	if (string != NULL && len > 0) {
-
-		fflush(stdin);
-		if(fgets(cadenaAux, longitud, stdin) != NULL) {
-
-			if(cadenaAux[strnlen(cadenaAux, longitud)-1] == '\n') {
-				cadenaAux[strnlen(cadenaAux, longitud)-1] = '\0';
-			}
-
-			if(strnlen(cadenaAux, longitud) <= len && strlen(cadenaAux) > 0) {
-				strncpy(string, cadenaAux, len);
-				retorno = 0;
-			}
+/// @brief Obtiene un estao de vuelo valido conformado por letras o espacios.
+///
+/// @param cadena cadena
+/// @param mensaje Es el mensaje a ser mostrado
+/// @param mensajeError Es el mensaje de error a ser mostrado
+/// @param reintentos Reintentos Parametro que determina la cantidad de reintentos antes de que la funcion
+/// @return Retorna 0 si se obtuvo el estado de vuelo -1 si no.
+int getFlightStatus(char cadena[],char mensaje[], char mensajeError[], int reintentos){
+	int retorno = -1;
+	char cadenaAux[50];
+	if(mensaje != NULL && cadena != NULL && mensajeError != 0 && reintentos > 0){
+		do{
+		printf("%s", mensaje);
+		if (myGets(cadenaAux,sizeof(cadenaAux)) ==0 && !itsFlightStatus(cadenaAux)){
+			strcpy(cadena, cadenaAux);
+			retorno = 0;
+			break;
 		}
+		else{
+			printf("%s",mensajeError);
+			reintentos--;
+			retorno = 1;
+		}
+		}while(reintentos >=0);
+
 	}
 
 	return retorno;
 }
 
+/// @brief Verifica si la cadena es un estado de vuelo valido.
+///
+/// @param cadena
+/// @return -1 si falla 0 si pudo validar la cadena ingresada.
+int itsFlightStatus(char* cadena){
+	int retorno=-1;
 
-
-
-
-
-
+	if(cadena!=NULL){
+		if(strcmp(cadena, "En vuelo") == 0 || strcmp(cadena, "En Horario") == 0 ||  strcmp(cadena, "Aterrizado") == 0 || strcmp(cadena, "Demorado") == 0){
+			retorno = 0;
+		}
+	}
+	return retorno;
+}
 
 
 

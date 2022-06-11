@@ -27,7 +27,7 @@ int esCodigo(char* cadena);
 int mensajeGenerico(char * mensaje);
 int getString(char cadena[],char mensaje[], char mensajeError[], int reintentos);
 int esNombre(char* cadena);
-char utn_getChar (char mensaje[]);
 int utn_getString(char string[], int len);
-
+int getFlightStatus(char cadena[],char mensaje[], char mensajeError[], int reintentos);
+int itsFlightStatus(char* cadena);
 #endif /* BIBLIOTECAESDEDATOS_H_ */

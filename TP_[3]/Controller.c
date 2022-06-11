@@ -73,7 +73,7 @@ int controller_addPassenger(LinkedList* pArrayListPassenger){
 	   if(getString(bufferName, "Ingrese el nombre del pasajero:\n", "Error, pruebe con un caracter valido\n", 2)== 0 && getString(bufferLastName, "Ingrese el apellido del pasajero:\n", "Error, pruebe con un caracter valido\n", 2)== 0 &&
 		  utnGetFloat(&bufferPrice, "Ingrese el precio del viaje", "Error ingrese un numero valido", 0, 10000000, 2) == 0 && utn_getFlyCode(bufferFlyCode, "Ingrese el codigo de vuelo:\n", "Error solo caracteres alfanumericos", 2) == 0 &&
 		  utn_getInt(&bufferTypePassenger, "Ingrese el tipo de pasajero: \n1)FIRSTCLASS\n2)EXECUTIVECLASS\n3)ECONOMYCLASS\n", "Error ingrese una opcion valida.", 1, 3, 2) == 0 &&
-		  getString(bufferStatusFlight, "Ingrese el estado del vuelo:\n", "Error, pruebe con un caracter valido\n", 2)== 0){
+		  getFlightStatus(bufferStatusFlight, "Ingrese el estado del vuelo 'En vuelo' 'En Horario' 'Aterrizado' 'Demorado':\n", "Error, debe ser una cadena de caracteres valida respetando minusculas y mayusculas.\n", 2)== 0){
 		  pPasajero = Passenger_new();
 		  bufferId = parser_idsFromText(pFile);
 		  bufferId++;
