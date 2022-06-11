@@ -7,7 +7,6 @@ int controller_ListPassenger(LinkedList* pArrayListPassenger);
 int controller_sortPassenger(LinkedList* pArrayListPassenger);
 int controller_saveAsText(char* path , LinkedList* pArrayListPassenger);
 int controller_saveAsBinary(char* path , LinkedList* pArrayListPassenger);
-int controller_CerrarPrograma(LinkedList* pArrayListPassenger, int * respuesta, int estadoArchivo);
 int controller_saveIdAsText(char *path, int ultimoId);
 #define ARCHIVO_BIN "data.bin"
 #define ARCHIVO_TXT "data.csv"

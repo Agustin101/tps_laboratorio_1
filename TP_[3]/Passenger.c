@@ -198,11 +198,11 @@ int Passenger_setTipoPasajero(Passenger* this,int tipoPasajero){
 	return retorno;
 }
 
-/// @brief Verifica el tipo de pasajero mediante la cadena ingresada
-///
+/// @brief Verifica el tipo de pasajero mediante la cadena ingresada y la transforma
+/// en entero.
 /// @param Passenger * this
 /// @param char * tipoPasajeroStr
-/// @return -1 si falla o un define del tipo si pudo asignarlo correctamente.
+/// @return -1 si falla o el entero del tipo si pudo asignarlo correctamente.
 int Passenger_tipoPasajero(Passenger * this, char * tipoPasajeroStr){
 	int retorno = -1;
 
@@ -220,7 +220,7 @@ int Passenger_tipoPasajero(Passenger * this, char * tipoPasajeroStr){
 	return retorno;
 }
 
-/// @brief Combierte el tipo de pasajaero de entero a char.
+/// @brief Convierte el tipo de pasajaero de entero a cadena de chars
 ///
 /// @param this
 /// @param tipoPasajeroInt
@@ -284,7 +284,7 @@ int Passenger_setPrecio(Passenger* this,float precio){
 /// @return int retorno -1 si falla 0 si puede
 int Passenger_getPrecio(Passenger* this,float* precio){
 	int retorno = -1;
-	if(this != NULL && precio >0){
+	if(this != NULL && precio != NULL){
 		retorno = 0;
 		*precio = this->precio;
 	}

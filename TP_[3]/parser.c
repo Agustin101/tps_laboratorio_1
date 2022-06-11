@@ -13,7 +13,7 @@
  */
 int parser_PassengerFromText(FILE* pFile , LinkedList* pArrayListPassenger){
 	int retorno = -1;
-	Passenger * pPasajeroAux;
+	Passenger * pPasajeroAux = NULL;
 	char bufferId[50];
 	char bufferName[50];
 	char bufferLastName[50];
@@ -60,8 +60,8 @@ int parser_PassengerFromBinary(FILE* pFile , LinkedList* pArrayListPassenger){
     int typePassenger;
     char flyCode[10];
     char flightStatus[50];
-
 	Passenger * pAux = NULL;
+
 	if(pFile != NULL && pArrayListPassenger != NULL){
 		while(!feof(pFile)){
 			pAux=Passenger_new();

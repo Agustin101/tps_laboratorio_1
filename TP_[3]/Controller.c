@@ -31,7 +31,7 @@ int controller_loadFromText(char* path , LinkedList* pArrayListPassenger){
  *
  * \param path char*
  * \param pArrayListPassenger LinkedList*
- * \return int reotrna -1 si falla y 0 si sale bien.
+ * \return int retorna -1 si falla y 0 si sale bien.
  *
  */
 int controller_loadFromBinary(char* path , LinkedList* pArrayListPassenger){
@@ -77,12 +77,12 @@ int controller_addPassenger(LinkedList* pArrayListPassenger){
 		  pPasajero = Passenger_new();
 		  bufferId = parser_idsFromText(pFile);
 		  bufferId++;
-		  if(pPasajero != NULL && bufferId > 0){
-				if(Passenger_setId(pPasajero, bufferId) == -1 || Passenger_setPrecio(pPasajero, bufferPrice) == -1 || Passenger_setTipoPasajero(pPasajero, bufferTypePassenger)	== -1 ||
-					Passenger_setNombre(pPasajero, bufferName) == -1 || Passenger_setApellido(pPasajero, bufferLastName) == -1 || Passenger_setCodigoVuelo(pPasajero, bufferFlyCode) ||
-					Passenger_setStatusFlight(pPasajero, bufferStatusFlight)==-1){
-					Passenger_delete(pPasajero);
-					pPasajero=NULL;
+		  	  if(pPasajero != NULL && bufferId > 0){
+		  		  if(Passenger_setId(pPasajero, bufferId) == -1 || Passenger_setPrecio(pPasajero, bufferPrice) == -1 || Passenger_setTipoPasajero(pPasajero, bufferTypePassenger)	== -1 ||
+		  		  Passenger_setNombre(pPasajero, bufferName) == -1 || Passenger_setApellido(pPasajero, bufferLastName) == -1 || Passenger_setCodigoVuelo(pPasajero, bufferFlyCode) ||
+				  Passenger_setStatusFlight(pPasajero, bufferStatusFlight)==-1){
+				  Passenger_delete(pPasajero);
+				  pPasajero=NULL;
 				}
 				else{
 					ll_add(pArrayListPassenger, pPasajero);
@@ -359,9 +359,10 @@ int controller_saveAsText(char* path , LinkedList* pArrayListPassenger){
 	int bufferTypePassenger;
 	char bufferStatusFlight[50];
 	char bufferTypePassengerStr[50];
-	pFile = fopen(path, "w");
 
-	if(path != NULL && pArrayListPassenger != NULL && pFile != NULL){
+	if(path != NULL && pArrayListPassenger != NULL){
+		pFile = fopen(path, "w");
+		if(pFile != NULL){
 		fprintf(pFile,"id,name,lastname,price,flycode,typePassenger,statusFlight\n");
 			cantidadElementos = ll_len(pArrayListPassenger);
 			for(int i = 0; i < cantidadElementos; i++){
@@ -373,6 +374,7 @@ int controller_saveAsText(char* path , LinkedList* pArrayListPassenger){
 						retorno = 0;
 				}
 			}
+		}
 	}
 	fclose(pFile);
     return retorno;
@@ -385,112 +387,26 @@ int controller_saveAsText(char* path , LinkedList* pArrayListPassenger){
  * \return int retorna  -1 si falla y 0 si sale bien
  *
  */
-int controller_saveAsBinary(char* path , LinkedList* pArrayListPassenger){
+int controller_saveAsBinary(char *path, LinkedList *pArrayListPassenger) {
 	int retorno = -1;
 	int cantidadElementos;
-	Passenger * pPasajero = NULL;
-	FILE * pFile = NULL;
-	pFile = fopen(path,"wb");
+	Passenger *pPasajero = NULL;
+	FILE *pFile = NULL;
 
-	if(path != NULL && pArrayListPassenger != NULL && pFile != NULL){
-		cantidadElementos = ll_len(pArrayListPassenger);
-			for(int i =0; i < cantidadElementos; i++){
-				pPasajero = (Passenger*)ll_get(pArrayListPassenger, i);
-				if(pPasajero != NULL){
-					fwrite(pPasajero,sizeof(Passenger),1,pFile);
-					retorno=0;
+	if (path != NULL && pArrayListPassenger != NULL) {
+		pFile = fopen(path, "wb");
+		if (pFile != NULL) {
+			cantidadElementos = ll_len(pArrayListPassenger);
+			for (int i = 0; i < cantidadElementos; i++) {
+				pPasajero = (Passenger*) ll_get(pArrayListPassenger, i);
+				if (pPasajero != NULL) {
+					fwrite(pPasajero, sizeof(Passenger), 1, pFile);
+					retorno = 0;
 				}
 			}
+		}
 	}
 	fclose(pFile);
-	return retorno;
-}
-
-/// @brief Si el usuario intenta salir sin guardar se le da la opcion de gaurdar los cambios hechos en el archivo que elija
-///
-/// @param pArrayListPassenger
-/// @param respuesta
-/// @return -1 si falla y 0 si sale bien.
-int controller_CerrarPrograma(LinkedList* pArrayListPassenger, int * respuesta, int estadoArchivo){
-    int respuestaAux;
-    int respuestaGuardado;
-    int retorno = -1;
-    int respuestaArchivo;
-    *respuesta=0;
-
-    if(pArrayListPassenger!= NULL && respuesta != NULL){
-    	if(!utn_getInt(&respuestaGuardado, "No puede salir del programa sin guardar el archivo, ¿Que desea hacer? \n1)Guardar\n2)Volver al menu principal", "Error ingrese una opcion valida. \n", 1, 2, 2)){
-    		if(estadoArchivo == 0 && respuestaGuardado == 1){
-			if(!utn_getInt(&respuestaArchivo,"No ha abierto ningun archivo, si guarda asi perdera todos los datos anteriormente registrados, esta seguro?\n1)Abrir csv y guardar.\n2)Abrir binario y guardar\n3)Sobreescrbir csv\n4)Sobreescribir binario\n5)Volver al menu principal. ", "Error ingrese un numero en el rango\n", 1, 5, 2)){
-				switch(respuestaArchivo){
-				case 1:
-	        		if(!controller_loadFromText(ARCHIVO_TXT,pArrayListPassenger) && !controller_saveAsText(ARCHIVO_TXT,pArrayListPassenger)){
-	        			printf("Archivo guardado correctamente.\nPrograma finalizado.\n");
-	        			ll_deleteLinkedList(pArrayListPassenger);
-	        			respuestaAux = 1;
-	        			retorno = 0;
-	        			*respuesta = respuestaAux;
-	        		}
-					break;
-				case 2:
-	        		if(!controller_loadFromBinary(ARCHIVO_BIN, pArrayListPassenger) && !controller_saveAsBinary(ARCHIVO_BIN,pArrayListPassenger)){
-	        			ll_deleteLinkedList(pArrayListPassenger);
-	        			printf("Archivo guardado correctamente.\nPrograma finalizado.\n");
-	        			respuestaAux = 1;
-	        			retorno = 0;
-	        			*respuesta = respuestaAux;
-	        		}
-					break;
-				case 3:
-	        		if(!controller_saveAsText(ARCHIVO_TXT,pArrayListPassenger)){
-	        			printf("Archivo guardado correctamente.\nPrograma finalizado.\n");
-	        			ll_deleteLinkedList(pArrayListPassenger);
-	        			respuestaAux = 1;
-	        			retorno = 0;
-	        			*respuesta = respuestaAux;
-	        		}
-					break;
-				case 4:
-	        		if(!controller_saveAsBinary(ARCHIVO_BIN,pArrayListPassenger)){
-	        			ll_deleteLinkedList(pArrayListPassenger);
-	        			printf("Archivo guardado correctamente.\nPrograma finalizado.\n");
-	        			respuestaAux = 1;
-	        			retorno = 0;
-	        			*respuesta = respuestaAux;
-	        		}
-					break;
-				case 5:
-					*respuesta=0;
-					break;
-				}
-			}
-		}
-		else if (respuestaGuardado == 1){
-			if(!utn_getInt(&respuestaAux, "1)Guardar csv\n2)Guardar binario", "Indique una opcion valida.\n", 1, 2, 2)){
-				switch(respuestaAux){
-				case 1:
-					if(!controller_saveAsText(ARCHIVO_TXT,pArrayListPassenger)){
-						printf("Archivo guardado correctamente.\nPrograma finalizado.\n");
-						ll_deleteLinkedList(pArrayListPassenger);
-						respuestaAux = 1;
-						retorno = 0;
-						*respuesta = respuestaAux;
-					}
-					break;
-				case 2:
-					if(!controller_saveAsBinary(ARCHIVO_BIN,pArrayListPassenger)){
-						ll_deleteLinkedList(pArrayListPassenger);
-						printf("Archivo guardado correctamente.\nPrograma finalizado.\n");
-						respuestaAux = 1;
-						retorno = 0;
-						*respuesta = respuestaAux;
-					}
-					break;
-				}
-			}
-		}
-	}
-    }
 	return retorno;
 }
 
