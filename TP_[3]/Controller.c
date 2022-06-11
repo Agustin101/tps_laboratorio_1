@@ -171,7 +171,7 @@ int controller_editPassenger(LinkedList* pArrayListPassenger){
 								}
 								break;
 							case 6:
-								if(!getString(estadoDeVueloAux, "Ingrese el nuevo estado de vuelo: \n", "Ingrese un estado de vuelo valido\n", 2)){
+								if(!getFlightStatus(estadoDeVueloAux, "Ingrese el estado del vuelo 'En vuelo' 'En Horario' 'Aterrizado' 'Demorado':\n", "Error, debe ser una cadena de caracteres valida respetando minusculas y mayusculas.\n", 2)){
 									if(!Passenger_setStatusFlight(pPasajero, estadoDeVueloAux)){
 										printf("Estado de vuelo actualizado con exito.\n");
 										retorno = 0;
